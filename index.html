@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Rang - تسجيل الدخول</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="config.js"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #bca5e0, #a992be);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .box {
+      width: 100%;
+      max-width: 400px;
+      background: white;
+      border-radius: 25px;
+      padding: 30px 25px;
+      box-shadow: 0 15px 40px rgba(0,0,0,.2);
+    }
+
+    .logo {
+      text-align: center;
+      font-size: 42px;
+      font-weight: bold;
+      color: #7c3aed;
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #666;
+      margin-bottom: 25px;
+    }
+
+    label {
+      display: block;
+      margin: 12px 0 7px;
+      font-weight: bold;
+      color: #333;
+    }
+
+    input {
+      width: 100%;
+      padding: 14px;
+      border: 1px solid #ddd;
+      border-radius: 12px;
+      font-size: 16px;
+      outline: none;
+    }
+
+    input:focus {
+      border-color: #7c3aed;
+    }
+
+    button {
+      width: 100%;
+      margin-top: 20px;
+      padding: 14px;
+      border: none;
+      border-radius: 12px;
+      background: #7c3aed;
+      color: white;
+      font-size: 17px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:disabled {
+      opacity: .6;
+    }
+
+    .message {
+      margin-top: 15px;
+      text-align: center;
+      font-weight: bold;
+      min-height: 25px;
+    }
+
+    .signup {
+      text-align: center;
+      margin-top: 20px;
+      color: #666;
+    }
+
+    .signup a {
+      color: #7c3aed;
+      font-weight: bold;
+      text-decoration: none;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="box">
+
+    <div class="logo">Rang</div>
+
+    <div class="subtitle">
+      شبكة المدرسة التعليمية
+    </div>
+
+    <form id="loginForm">
+
+      <label>البريد الإلكتروني</label>
+
+      <input
+        type="email"
+        id="email"
+        placeholder="example@email.com"
+        required
+      >
+
+      <label>كلمة المرور</label>
+
+      <input
+        type="password"
+        id="password"
+        placeholder="أدخل كلمة المرور"
+        required
+      >
+
+      <button type="submit" id="loginButton">
+        تسجيل الدخول
+      </button>
+
+      <div class="message" id="message"></div>
+
+    </form>
+
+    <div class="signup">
+      ليس لديك حساب؟
+      <a href="signup.html">إنشاء حساب جديد</a>
+    </div>
+
+  </div>
+
+  <script>
+
+    const form = document.getElementById("loginForm");
+    const message = document.getElementById("message");
+    const loginButton = document.getElementById("loginButton");
+
+    form.addEventListener("submit", async function(e) {
+
+      e.preventDefault();
+
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value;
+
+      message.textContent = "جاري تسجيل الدخول...";
+      message.style.color = "#7c3aed";
+      loginButton.disabled = true;
+
+      try {
+
+        const { data, error } =
+          await supabaseClient.auth.signInWithPassword({
+            email: email,
+            password: password
+          });
+
+        if (error) {
+          throw error;
+        }
+
+        const user = data.user;
+
+        const { data: profile, error: profileError } =
+          await supabaseClient
+            .from("profiles")
+            .select("*")
+            .eq("id", user.id)
+            .single();
+
+        if (profileError) {
+          throw new Error("تم تسجيل الدخول، لكن بيانات الحساب غير موجودة.");
+        }
+
+        localStorage.setItem(
+          "rangUser",
+          JSON.stringify(profile)
+        );
+
+        localStorage.setItem(
+          "rangLoggedIn",
+          "true"
+        );
+
+        message.textContent = "تم تسجيل الدخول بنجاح ✅";
+        message.style.color = "green";
+
+        setTimeout(function() {
+
+          if (profile.account_type === "teacher") {
+            window.location.href = "teacher.html";
+          } else {
+            window.location.href = "home.html";
+          }
+
+        }, 700);
+
+      } catch (error) {
+
+        console.error(error);
+
+        message.textContent =
+          error.message || "حدث خطأ أثناء تسجيل الدخول";
+
+        message.style.color = "red";
+
+        loginButton.disabled = false;
+      }
+
+    });
+
+  </script>
+
+</body>
+</html>

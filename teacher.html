@@ -1,0 +1,1445 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Rang - المعلم</title>
+
+  <!-- Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="config.js"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      margin: 0;
+      background: #f5f3ff;
+      color: #222;
+      padding-bottom: 80px;
+    }
+
+    .top {
+      background: linear-gradient(135deg, #6d28d9, #8b5cf6);
+      color: white;
+      padding: 20px;
+      border-radius: 0 0 25px 25px;
+    }
+
+    .logo {
+      font-size: 29px;
+      font-weight: bold;
+    }
+
+    .welcome {
+      margin-top: 8px;
+      font-size: 16px;
+    }
+
+    .container {
+      padding: 18px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 20px;
+      padding: 18px;
+      margin-bottom: 16px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.07);
+    }
+
+    .teacher-avatar {
+      width: 65px;
+      height: 65px;
+      border-radius: 50%;
+      background: #7c3aed;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      margin-bottom: 10px;
+    }
+
+    .teacher-name {
+      font-size: 22px;
+      font-weight: bold;
+    }
+
+    .subject {
+      color: #7c3aed;
+      margin-top: 5px;
+    }
+
+    .title {
+      font-size: 20px;
+      font-weight: bold;
+      margin: 22px 0 12px;
+    }
+
+    .actions {
+      display: grid;
+      gap: 12px;
+    }
+
+    .action {
+      width: 100%;
+      border: none;
+      background: white;
+      padding: 18px;
+      border-radius: 18px;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.07);
+      text-align: right;
+      font-size: 17px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .action span {
+      font-size: 25px;
+      margin-left: 8px;
+    }
+
+    input,
+    textarea,
+    select {
+      width: 100%;
+      border: 1px solid #ddd;
+      border-radius: 12px;
+      padding: 13px;
+      margin-top: 9px;
+      font-size: 16px;
+      outline: none;
+    }
+
+    textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    .main-btn {
+      width: 100%;
+      border: none;
+      background: #7c3aed;
+      color: white;
+      padding: 14px;
+      border-radius: 12px;
+      margin-top: 12px;
+      font-size: 17px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .secondary-btn {
+      width: 100%;
+      border: none;
+      background: #ede9fe;
+      color: #6d28d9;
+      padding: 13px;
+      border-radius: 12px;
+      margin-top: 10px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .question-box {
+      background: #faf9ff;
+      border: 1px solid #e5e0ff;
+      border-radius: 17px;
+      padding: 15px;
+      margin-top: 15px;
+    }
+
+    .question-title {
+      font-weight: bold;
+      font-size: 17px;
+      margin-bottom: 8px;
+    }
+
+    .option-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 9px;
+    }
+
+    .option-row input[type="radio"] {
+      width: auto;
+      margin: 0;
+      accent-color: #7c3aed;
+    }
+
+    .option-row input[type="text"] {
+      margin: 0;
+      flex: 1;
+    }
+
+    .correct-label {
+      color: #6d28d9;
+      font-size: 13px;
+      white-space: nowrap;
+    }
+
+    .test-card,
+    .result-card,
+    .post-card {
+      background: white;
+      border-radius: 18px;
+      padding: 16px;
+      margin-top: 12px;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.06);
+    }
+
+    .test-name {
+      font-weight: bold;
+      color: #6d28d9;
+      font-size: 18px;
+    }
+
+    .small {
+      color: #777;
+      font-size: 13px;
+      margin-top: 5px;
+    }
+
+    .result-name {
+      font-weight: bold;
+      font-size: 17px;
+    }
+
+    .score {
+      display: inline-block;
+      background: #ede9fe;
+      color: #6d28d9;
+      padding: 7px 12px;
+      border-radius: 10px;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+
+    .empty {
+      background: white;
+      padding: 18px;
+      border-radius: 17px;
+      color: #777;
+      text-align: center;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .bottom {
+      position: fixed;
+      bottom: 0;
+      right: 0;
+      left: 0;
+      height: 68px;
+      background: white;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      box-shadow: 0 -3px 15px rgba(0,0,0,0.1);
+      z-index: 20;
+    }
+
+    .bottom button {
+      border: none;
+      background: none;
+      color: #555;
+      font-size: 12px;
+      cursor: pointer;
+    }
+
+    .bottom button:first-child {
+      color: #7c3aed;
+      font-weight: bold;
+    }
+
+    .logout {
+      color: #d32f2f !important;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="top">
+    <div class="logo">Rang</div>
+    <div class="welcome">لوحة تحكم المعلم 👨‍🏫</div>
+  </div>
+
+  <div class="container">
+
+    <div class="card">
+
+      <div class="teacher-avatar">👨‍🏫</div>
+
+      <div class="teacher-name" id="teacherName">
+        المعلم
+      </div>
+
+      <div class="subject" id="teacherSubject">
+        المادة
+      </div>
+
+      <div class="small">
+        حساب معلم
+      </div>
+
+    </div>
+
+
+    <div class="title">
+      لوحة التحكم
+    </div>
+
+    <div class="actions">
+
+      <button class="action" onclick="openAnnouncement()">
+        <span>📢</span>
+        نشر إعلان
+      </button>
+
+      <button class="action" onclick="openTestCreator()">
+        <span>📝</span>
+        إنشاء اختبار
+      </button>
+
+      <button class="action" onclick="showResults()">
+        <span>📊</span>
+        نتائج الطلاب
+      </button>
+
+    </div>
+
+
+    <!-- الإعلان -->
+
+    <div id="announcementSection" class="card hidden">
+
+      <div class="title">
+        📢 نشر إعلان
+      </div>
+
+      <select id="announcementGrade">
+
+        <option value="all">
+          كل الطلاب
+        </option>
+
+        <option value="الأول الثانوي">
+          الأول الثانوي
+        </option>
+
+        <option value="الثاني الثانوي">
+          الثاني الثانوي
+        </option>
+
+        <option value="الثالث الثانوي">
+          الثالث الثانوي
+        </option>
+
+      </select>
+
+      <textarea
+        id="announcementText"
+        placeholder="اكتب الإعلان هنا..."
+      ></textarea>
+
+      <button class="main-btn" onclick="publishAnnouncement()">
+        نشر الإعلان
+      </button>
+
+    </div>
+
+
+    <!-- الاختبار -->
+
+    <div id="testSection" class="card hidden">
+
+      <div class="title">
+        📝 إنشاء اختبار
+      </div>
+
+      <input
+        id="testTitle"
+        type="text"
+        placeholder="اسم الاختبار"
+      >
+
+      <select id="testGrade">
+
+        <option value="الأول الثانوي">
+          الأول الثانوي
+        </option>
+
+        <option value="الثاني الثانوي">
+          الثاني الثانوي
+        </option>
+
+        <option value="الثالث الثانوي">
+          الثالث الثانوي
+        </option>
+
+      </select>
+
+      <div id="questionsContainer"></div>
+
+      <button
+        class="secondary-btn"
+        onclick="addQuestion()"
+      >
+        ➕ إضافة سؤال
+      </button>
+
+      <button
+        class="main-btn"
+        onclick="publishTest()"
+      >
+        🚀 نشر الاختبار
+      </button>
+
+    </div>
+
+
+    <!-- اختباراتي -->
+
+    <div class="title">
+      📚 اختباراتي
+    </div>
+
+    <div id="testsContainer"></div>
+
+
+    <!-- النتائج -->
+
+    <div id="resultsSection" class="hidden">
+
+      <div class="title">
+        📊 نتائج الطلاب
+      </div>
+
+      <div id="resultsContainer"></div>
+
+    </div>
+
+
+    <!-- إعلاناتي -->
+
+    <div class="title">
+      📢 إعلاناتي
+    </div>
+
+    <div id="postsContainer"></div>
+
+  </div>
+
+
+  <div class="bottom">
+
+    <button onclick="location.reload()">
+      🏠
+      <br>
+      الرئيسية
+    </button>
+
+    <button onclick="showStudents()">
+      👨‍🎓
+      <br>
+      الطلاب
+    </button>
+
+    <button onclick="showResults()">
+      📊
+      <br>
+      النتائج
+    </button>
+
+    <button class="logout" onclick="logout()">
+      🚪
+      <br>
+      خروج
+    </button>
+
+  </div>
+
+
+<script>
+
+let currentUser = null;
+let teacherProfile = null;
+let questionNumber = 0;
+
+
+/* =========================
+   تشغيل الصفحة
+========================= */
+
+async function initTeacherPage() {
+
+  const {
+    data: {
+      user
+    },
+    error
+  } = await supabaseClient.auth.getUser();
+
+
+  if (error || !user) {
+
+    window.location.href = "index.html";
+
+    return;
+
+  }
+
+
+  currentUser = user;
+
+
+  /* جلب بيانات المعلم */
+
+  const {
+    data: profile,
+    error: profileError
+  } = await supabaseClient
+    .from("profiles")
+    .select("*")
+    .eq("id", user.id)
+    .maybeSingle();
+
+
+  if (profileError) {
+
+    console.error(profileError);
+
+    alert("حدث خطأ أثناء تحميل بيانات المعلم");
+
+    return;
+
+  }
+
+
+  if (!profile) {
+
+    alert("لم يتم العثور على بيانات المعلم");
+
+    return;
+
+  }
+
+
+  teacherProfile = profile;
+
+
+  /* التأكد أن الحساب معلم */
+
+  if (profile.account_type !== "teacher") {
+
+    window.location.href = "home.html";
+
+    return;
+
+  }
+
+
+  /* عرض بيانات المعلم */
+
+  document.getElementById("teacherName").textContent =
+    profile.name || "المعلم";
+
+
+  document.getElementById("teacherSubject").textContent =
+    "المادة: " + (profile.subject || "غير محددة");
+
+
+  /* تحميل البيانات */
+
+  await loadTests();
+
+  await loadResults();
+
+  await loadPosts();
+
+}
+
+
+/* =========================
+   فتح الإعلان
+========================= */
+
+function openAnnouncement() {
+
+  hideSections();
+
+  document
+    .getElementById("announcementSection")
+    .classList.remove("hidden");
+
+  document
+    .getElementById("announcementSection")
+    .scrollIntoView({
+      behavior: "smooth"
+    });
+
+}
+
+
+/* =========================
+   نشر الإعلان
+========================= */
+
+async function publishAnnouncement() {
+
+  const text =
+    document
+      .getElementById("announcementText")
+      .value
+      .trim();
+
+
+  const grade =
+    document
+      .getElementById("announcementGrade")
+      .value;
+
+
+  if (!text) {
+
+    alert("اكتب الإعلان أولاً");
+
+    return;
+
+  }
+
+
+  const {
+    error
+  } = await supabaseClient
+    .from("posts")
+    .insert({
+
+      teacher_id: currentUser.id,
+
+      grade: grade,
+
+      text: text
+
+    });
+
+
+  if (error) {
+
+    console.error(error);
+
+    alert(
+      "حدث خطأ أثناء نشر الإعلان:\n" +
+      error.message
+    );
+
+    return;
+
+  }
+
+
+  document
+    .getElementById("announcementText")
+    .value = "";
+
+
+  alert("تم نشر الإعلان بنجاح ✅");
+
+
+  await loadPosts();
+
+}
+
+
+/* =========================
+   فتح إنشاء اختبار
+========================= */
+
+function openTestCreator() {
+
+  hideSections();
+
+  document
+    .getElementById("testSection")
+    .classList.remove("hidden");
+
+  document
+    .getElementById("testSection")
+    .scrollIntoView({
+      behavior: "smooth"
+    });
+
+
+  if (
+    document
+      .getElementById("questionsContainer")
+      .children.length === 0
+  ) {
+
+    addQuestion();
+
+  }
+
+}
+
+
+/* =========================
+   إضافة سؤال
+========================= */
+
+function addQuestion() {
+
+  questionNumber++;
+
+
+  const container =
+    document.getElementById(
+      "questionsContainer"
+    );
+
+
+  const box =
+    document.createElement("div");
+
+
+  box.className = "question-box";
+
+  box.dataset.number =
+    questionNumber;
+
+
+  box.innerHTML = `
+
+    <div class="question-title">
+      السؤال ${questionNumber}
+    </div>
+
+    <textarea
+      class="question-text"
+      placeholder="اكتب السؤال هنا..."
+    ></textarea>
+
+
+    <div class="option-row">
+
+      <input
+        type="radio"
+        name="correct_${questionNumber}"
+        value="0"
+      >
+
+      <input
+        type="text"
+        class="option"
+        placeholder="الاختيار أ"
+      >
+
+      <span class="correct-label">
+        الإجابة الصحيحة
+      </span>
+
+    </div>
+
+
+    <div class="option-row">
+
+      <input
+        type="radio"
+        name="correct_${questionNumber}"
+        value="1"
+      >
+
+      <input
+        type="text"
+        class="option"
+        placeholder="الاختيار ب"
+      >
+
+    </div>
+
+
+    <div class="option-row">
+
+      <input
+        type="radio"
+        name="correct_${questionNumber}"
+        value="2"
+      >
+
+      <input
+        type="text"
+        class="option"
+        placeholder="الاختيار ج"
+      >
+
+    </div>
+
+
+    <div class="option-row">
+
+      <input
+        type="radio"
+        name="correct_${questionNumber}"
+        value="3"
+      >
+
+      <input
+        type="text"
+        class="option"
+        placeholder="الاختيار د"
+      >
+
+    </div>
+
+  `;
+
+
+  container.appendChild(box);
+
+}
+
+
+/* =========================
+   نشر الاختبار
+========================= */
+
+async function publishTest() {
+
+  const title =
+    document
+      .getElementById("testTitle")
+      .value
+      .trim();
+
+
+  const grade =
+    document
+      .getElementById("testGrade")
+      .value;
+
+
+  const boxes =
+    document.querySelectorAll(
+      ".question-box"
+    );
+
+
+  if (!title) {
+
+    alert("اكتب اسم الاختبار");
+
+    return;
+
+  }
+
+
+  if (boxes.length === 0) {
+
+    alert("أضف سؤالاً واحداً على الأقل");
+
+    return;
+
+  }
+
+
+  const questions = [];
+
+
+  for (
+    let i = 0;
+    i < boxes.length;
+    i++
+  ) {
+
+    const box = boxes[i];
+
+
+    const text =
+      box
+        .querySelector(".question-text")
+        .value
+        .trim();
+
+
+    const options =
+      Array.from(
+        box.querySelectorAll(".option")
+      ).map(function(input) {
+
+        return input.value.trim();
+
+      });
+
+
+    const correctInput =
+      box.querySelector(
+        'input[type="radio"]:checked'
+      );
+
+
+    if (!text) {
+
+      alert(
+        "اكتب السؤال رقم " +
+        (i + 1)
+      );
+
+      return;
+
+    }
+
+
+    for (let j = 0; j < 4; j++) {
+
+      if (!options[j]) {
+
+        alert(
+          "اكتب الاختيار رقم " +
+          (j + 1) +
+          " في السؤال " +
+          (i + 1)
+        );
+
+        return;
+
+      }
+
+    }
+
+
+    if (!correctInput) {
+
+      alert(
+        "حدد الإجابة الصحيحة للسؤال " +
+        (i + 1)
+      );
+
+      return;
+
+    }
+
+
+    questions.push({
+
+      text: text,
+
+      options: options,
+
+      correct:
+        Number(correctInput.value)
+
+    });
+
+  }
+
+
+  /* إرسال الاختبار إلى Supabase */
+
+  const {
+    error
+  } = await supabaseClient
+    .from("tests")
+    .insert({
+
+      teacher_id: currentUser.id,
+
+      title: title,
+
+      grade: grade,
+
+      subject: teacherProfile.subject || "",
+
+      questions: questions
+
+    });
+
+
+  if (error) {
+
+    console.error(error);
+
+    alert(
+      "حدث خطأ أثناء نشر الاختبار:\n" +
+      error.message
+    );
+
+    return;
+
+  }
+
+
+  alert(
+    "تم نشر الاختبار بنجاح ✅"
+  );
+
+
+  document.getElementById(
+    "testTitle"
+  ).value = "";
+
+
+  document.getElementById(
+    "questionsContainer"
+  ).innerHTML = "";
+
+
+  questionNumber = 0;
+
+
+  addQuestion();
+
+
+  await loadTests();
+
+}
+
+
+/* =========================
+   عرض الاختبارات
+========================= */
+
+async function loadTests() {
+
+  const container =
+    document.getElementById(
+      "testsContainer"
+    );
+
+
+  const {
+    data: tests,
+    error
+  } = await supabaseClient
+    .from("tests")
+    .select("*")
+    .eq("teacher_id", currentUser.id)
+    .order("created_at", {
+      ascending: false
+    });
+
+
+  if (error) {
+
+    console.error(error);
+
+    container.innerHTML = `
+
+      <div class="empty">
+        حدث خطأ أثناء تحميل الاختبارات.
+      </div>
+
+    `;
+
+    return;
+
+  }
+
+
+  if (!tests || tests.length === 0) {
+
+    container.innerHTML = `
+
+      <div class="empty">
+        لا توجد اختبارات منشورة حتى الآن.
+      </div>
+
+    `;
+
+    return;
+
+  }
+
+
+  container.innerHTML = "";
+
+
+  tests.forEach(function(test) {
+
+    const questions =
+      Array.isArray(test.questions)
+        ? test.questions
+        : [];
+
+
+    const date =
+      test.created_at
+        ? new Date(
+            test.created_at
+          ).toLocaleString("ar-EG")
+        : "";
+
+
+    container.innerHTML += `
+
+      <div class="test-card">
+
+        <div class="test-name">
+          📝 ${escapeHtml(test.title)}
+        </div>
+
+        <div class="small">
+          🎓 الصف:
+          ${escapeHtml(test.grade || "-")}
+        </div>
+
+        <div class="small">
+          📚 المادة:
+          ${escapeHtml(test.subject || "-")}
+        </div>
+
+        <div class="small">
+          عدد الأسئلة:
+          ${questions.length}
+        </div>
+
+        <div class="small">
+          ${escapeHtml(date)}
+        </div>
+
+      </div>
+
+    `;
+
+  });
+
+}
+
+
+/* =========================
+   عرض النتائج
+========================= */
+
+async function showResults() {
+
+  hideSections();
+
+  document
+    .getElementById("resultsSection")
+    .classList.remove("hidden");
+
+
+  await loadResults();
+
+
+  document
+    .getElementById("resultsSection")
+    .scrollIntoView({
+      behavior: "smooth"
+    });
+
+}
+
+
+/* =========================
+   تحميل النتائج
+========================= */
+
+async function loadResults() {
+
+  const container =
+    document.getElementById(
+      "resultsContainer"
+    );
+
+
+  const {
+    data: results,
+    error
+  } = await supabaseClient
+    .from("results")
+    .select("*")
+    .eq("teacher_id", currentUser.id)
+    .order("created_at", {
+      ascending: false
+    });
+
+
+  if (error) {
+
+    console.error(error);
+
+    container.innerHTML = `
+
+      <div class="empty">
+        حدث خطأ أثناء تحميل النتائج.
+      </div>
+
+    `;
+
+    return;
+
+  }
+
+
+  if (!results || results.length === 0) {
+
+    container.innerHTML = `
+
+      <div class="empty">
+        📭 لم يرسل أي طالب اختباراً حتى الآن.
+      </div>
+
+    `;
+
+    return;
+
+  }
+
+
+  container.innerHTML = "";
+
+
+  results.forEach(function(result) {
+
+    const date =
+      result.created_at
+        ? new Date(
+            result.created_at
+          ).toLocaleString("ar-EG")
+        : "";
+
+
+    container.innerHTML += `
+
+      <div class="result-card">
+
+        <div class="result-name">
+          👨‍🎓 ${escapeHtml(
+            result.student_name || "طالب"
+          )}
+        </div>
+
+        <div class="small">
+          الصف:
+          ${escapeHtml(result.grade || "-")}
+        </div>
+
+        <div class="small">
+          الاختبار:
+          ${escapeHtml(result.test_title || "-")}
+        </div>
+
+        <div class="score">
+          الدرجة:
+          ${result.score || 0} / ${result.total || 0}
+        </div>
+
+        <div class="small">
+          ${escapeHtml(date)}
+        </div>
+
+      </div>
+
+    `;
+
+  });
+
+}
+
+
+/* =========================
+   الطلاب
+========================= */
+
+function showStudents() {
+
+  alert(
+    "قسم الطلاب سيتم تطويره لاحقاً 👨‍🎓"
+  );
+
+}
+
+
+/* =========================
+   تحميل إعلانات المعلم
+========================= */
+
+async function loadPosts() {
+
+  const container =
+    document.getElementById(
+      "postsContainer"
+    );
+
+
+  const {
+    data: posts,
+    error
+  } = await supabaseClient
+    .from("posts")
+    .select("*")
+    .eq("teacher_id", currentUser.id)
+    .order("created_at", {
+      ascending: false
+    });
+
+
+  if (error) {
+
+    console.error(error);
+
+    container.innerHTML = `
+
+      <div class="empty">
+        حدث خطأ أثناء تحميل الإعلانات.
+      </div>
+
+    `;
+
+    return;
+
+  }
+
+
+  if (!posts || posts.length === 0) {
+
+    container.innerHTML = `
+
+      <div class="empty">
+        لا توجد إعلانات منشورة.
+      </div>
+
+    `;
+
+    return;
+
+  }
+
+
+  container.innerHTML = "";
+
+
+  posts.forEach(function(post) {
+
+    const target =
+      post.grade === "all"
+        ? "كل الطلاب"
+        : post.grade;
+
+
+    const date =
+      post.created_at
+        ? new Date(
+            post.created_at
+          ).toLocaleString("ar-EG")
+        : "";
+
+
+    container.innerHTML += `
+
+      <div class="post-card">
+
+        <b>
+          📢 إعلان
+        </b>
+
+        <div style="margin-top:10px;">
+          ${escapeHtml(post.text)}
+        </div>
+
+        <div class="small">
+          🎓 ${escapeHtml(target)}
+        </div>
+
+        <div class="small">
+          ${escapeHtml(date)}
+        </div>
+
+      </div>
+
+    `;
+
+  });
+
+}
+
+
+/* =========================
+   إخفاء الأقسام
+========================= */
+
+function hideSections() {
+
+  document
+    .getElementById("announcementSection")
+    .classList.add("hidden");
+
+  document
+    .getElementById("testSection")
+    .classList.add("hidden");
+
+  document
+    .getElementById("resultsSection")
+    .classList.add("hidden");
+
+}
+
+
+/* =========================
+   تسجيل الخروج
+========================= */
+
+async function logout() {
+
+  const {
+    error
+  } = await supabaseClient.auth.signOut();
+
+
+  if (error) {
+
+    alert(
+      "حدث خطأ أثناء تسجيل الخروج"
+    );
+
+    return;
+
+  }
+
+
+  window.location.href =
+    "index.html";
+
+}
+
+
+/* =========================
+   حماية النص
+========================= */
+
+function escapeHtml(text) {
+
+  const div =
+    document.createElement("div");
+
+  div.textContent =
+    text == null
+      ? ""
+      : String(text);
+
+  return div.innerHTML;
+
+}
+
+
+/* =========================
+   بدء الصفحة
+========================= */
+
+initTeacherPage();
+
+</script>
+
+</body>
+</html>

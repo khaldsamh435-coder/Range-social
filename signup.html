@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Rang - إنشاء حساب</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="config.js"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #6d28d9, #9333ea);
+      padding: 25px 15px;
+    }
+
+    .box {
+      width: 100%;
+      max-width: 450px;
+      margin: auto;
+      background: white;
+      border-radius: 25px;
+      padding: 25px;
+      box-shadow: 0 15px 40px rgba(0,0,0,.2);
+    }
+
+    .logo {
+      text-align: center;
+      font-size: 40px;
+      font-weight: bold;
+      color: #7c3aed;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #666;
+      margin: 5px 0 25px;
+    }
+
+    label {
+      display: block;
+      margin: 13px 0 7px;
+      font-weight: bold;
+      color: #333;
+    }
+
+    input,
+    select {
+      width: 100%;
+      padding: 13px;
+      border: 1px solid #ddd;
+      border-radius: 12px;
+      font-size: 16px;
+      background: white;
+    }
+
+    .type-buttons {
+      display: flex;
+      gap: 8px;
+    }
+
+    .type-buttons button {
+      flex: 1;
+      padding: 12px 5px;
+      border: 1px solid #ddd;
+      border-radius: 12px;
+      background: white;
+      color: #333;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .type-buttons button.active {
+      background: #7c3aed;
+      color: white;
+      border-color: #7c3aed;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .main-button {
+      width: 100%;
+      margin-top: 22px;
+      padding: 14px;
+      border: none;
+      border-radius: 12px;
+      background: #7c3aed;
+      color: white;
+      font-size: 17px;
+      font-weight: bold;
+    }
+
+    .main-button:disabled {
+      opacity: .6;
+    }
+
+    .message {
+      text-align: center;
+      margin-top: 15px;
+      min-height: 25px;
+      font-weight: bold;
+    }
+
+    .login {
+      text-align: center;
+      margin-top: 20px;
+      color: #666;
+    }
+
+    .login a {
+      color: #7c3aed;
+      font-weight: bold;
+      text-decoration: none;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="box">
+
+  <div class="logo">Rang</div>
+
+  <div class="subtitle">
+    إنشاء حساب جديد
+  </div>
+
+  <label>نوع الحساب</label>
+
+  <div class="type-buttons">
+
+    <button type="button" id="studentBtn" class="active">
+      طالب
+    </button>
+
+    <button type="button" id="femaleBtn">
+      طالبة
+    </button>
+
+    <button type="button" id="teacherBtn">
+      معلم
+    </button>
+
+  </div>
+
+  <form id="signupForm">
+
+    <label>الاسم</label>
+
+    <input
+      type="text"
+      id="name"
+      placeholder="اكتب اسمك"
+      required
+    >
+
+    <label>اسم المستخدم</label>
+
+    <input
+      type="text"
+      id="username"
+      placeholder="مثال: ahmed123"
+      required
+    >
+
+    <label>البريد الإلكتروني</label>
+
+    <input
+      type="email"
+      id="email"
+      placeholder="example@email.com"
+      required
+    >
+
+    <div id="studentFields">
+
+      <label>الصف الدراسي</label>
+
+      <select id="grade">
+
+        <option value="الأول الثانوي">
+          الأول الثانوي
+        </option>
+
+        <option value="الثاني الثانوي">
+          الثاني الثانوي
+        </option>
+
+        <option value="الثالث الثانوي">
+          الثالث الثانوي
+        </option>
+
+      </select>
+
+    </div>
+
+    <div id="teacherFields" class="hidden">
+
+      <label>المادة</label>
+
+      <input
+        type="text"
+        id="subject"
+        placeholder="مثال: الرياضيات"
+      >
+
+    </div>
+
+    <label>كلمة المرور</label>
+
+    <input
+      type="password"
+      id="password"
+      placeholder="4 أحرف أو أكثر"
+      minlength="4"
+      required
+    >
+
+    <label>تأكيد كلمة المرور</label>
+
+    <input
+      type="password"
+      id="confirmPassword"
+      placeholder="أعد كتابة كلمة المرور"
+      minlength="4"
+      required
+    >
+
+    <button
+      type="submit"
+      class="main-button"
+      id="signupButton"
+    >
+      إنشاء الحساب
+    </button>
+
+    <div class="message" id="message"></div>
+
+  </form>
+
+  <div class="login">
+    لديك حساب بالفعل؟
+    <a href="index.html">تسجيل الدخول</a>
+  </div>
+
+</div>
+
+<script>
+
+let accountType = "student";
+
+const studentBtn = document.getElementById("studentBtn");
+const femaleBtn = document.getElementById("femaleBtn");
+const teacherBtn = document.getElementById("teacherBtn");
+
+const studentFields = document.getElementById("studentFields");
+const teacherFields = document.getElementById("teacherFields");
+
+function selectType(type) {
+
+  accountType = type;
+
+  studentBtn.classList.remove("active");
+  femaleBtn.classList.remove("active");
+  teacherBtn.classList.remove("active");
+
+  if (type === "student") {
+    studentBtn.classList.add("active");
+    studentFields.classList.remove("hidden");
+    teacherFields.classList.add("hidden");
+  }
+
+  if (type === "female") {
+    femaleBtn.classList.add("active");
+    studentFields.classList.remove("hidden");
+    teacherFields.classList.add("hidden");
+  }
+
+  if (type === "teacher") {
+    teacherBtn.classList.add("active");
+    studentFields.classList.add("hidden");
+    teacherFields.classList.remove("hidden");
+  }
+}
+
+studentBtn.onclick = function() {
+  selectType("student");
+};
+
+femaleBtn.onclick = function() {
+  selectType("female");
+};
+
+teacherBtn.onclick = function() {
+  selectType("teacher");
+};
+
+
+document.getElementById("signupForm").addEventListener(
+  "submit",
+  async function(e) {
+
+    e.preventDefault();
+
+    const name =
+      document.getElementById("name").value.trim();
+
+    const username =
+      document.getElementById("username").value.trim();
+
+    const email =
+      document.getElementById("email").value.trim();
+
+    const password =
+      document.getElementById("password").value;
+
+    const confirmPassword =
+      document.getElementById("confirmPassword").value;
+
+    const grade =
+      document.getElementById("grade").value;
+
+    const subject =
+      document.getElementById("subject").value.trim();
+
+    const message =
+      document.getElementById("message");
+
+    const signupButton =
+      document.getElementById("signupButton");
+
+
+    if (password !== confirmPassword) {
+
+      message.textContent =
+        "كلمتا المرور غير متطابقتين";
+
+      message.style.color = "red";
+
+      return;
+    }
+
+
+    if (password.length < 4) {
+
+      message.textContent =
+        "كلمة المرور يجب أن تكون 4 أحرف على الأقل";
+
+      message.style.color = "red";
+
+      return;
+    }
+
+
+    if (accountType === "teacher" && !subject) {
+
+      message.textContent =
+        "اكتب المادة التي تدرسها";
+
+      message.style.color = "red";
+
+      return;
+    }
+
+
+    signupButton.disabled = true;
+
+    message.textContent =
+      "جاري إنشاء الحساب...";
+
+    message.style.color = "#7c3aed";
+
+
+    try {
+
+      const gender =
+        accountType === "student"
+          ? "ذكر"
+          : accountType === "female"
+          ? "أنثى"
+          : null;
+
+
+      const realAccountType =
+        accountType === "teacher"
+          ? "teacher"
+          : "student";
+
+
+      const { data, error } =
+        await supabaseClient.auth.signUp({
+
+          email: email,
+
+          password: password,
+
+          options: {
+
+            data: {
+
+              name: name,
+
+              username: username,
+
+              account_type: realAccountType,
+
+              gender: gender,
+
+              grade:
+                realAccountType === "student"
+                  ? grade
+                  : null,
+
+              subject:
+                realAccountType === "teacher"
+                  ? subject
+                  : null
+
+            }
+
+          }
+
+        });
+
+
+      if (error) {
+        throw error;
+      }
+
+
+      /*
+        في حالة أن Supabase لا يطلب تأكيد البريد،
+        ستكون هناك جلسة مباشرة.
+      */
+
+      if (data.session) {
+
+        message.textContent =
+          "تم إنشاء الحساب بنجاح ✅";
+
+        message.style.color = "green";
+
+
+        setTimeout(function() {
+
+          if (realAccountType === "teacher") {
+
+            window.location.href =
+              "teacher.html";
+
+          } else {
+
+            window.location.href =
+              "home.html";
+
+          }
+
+        }, 800);
+
+      } else {
+
+        message.textContent =
+          "تم إنشاء الحساب. إذا طلب منك تأكيد البريد الإلكتروني، افتح بريدك ثم سجل الدخول.";
+
+        message.style.color = "green";
+
+        signupButton.disabled = false;
+
+      }
+
+    } catch (error) {
+
+      console.error(error);
+
+      message.textContent =
+        error.message ||
+        "حدث خطأ أثناء إنشاء الحساب";
+
+      message.style.color = "red";
+
+      signupButton.disabled = false;
+
+    }
+
+  }
+);
+
+</script>
+
+</body>
+</html>
