@@ -2,24 +2,39 @@
 <html lang="ar" dir="rtl">
 
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0"
+>
 
 <title>Rang Social - المراسلة</title>
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link
+  rel="preconnect"
+  href="https://fonts.googleapis.com"
+>
 
 <link
-href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap"
-rel="stylesheet">
+  rel="preconnect"
+  href="https://fonts.gstatic.com"
+  crossorigin
+>
 
 <link
-rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+  href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap"
+  rel="stylesheet"
+>
+
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
 >
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <script src="config.js"></script>
 
 <style>
@@ -30,7 +45,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
   --bg:#f4f6f9;
   --text:#2d3436;
   --muted:#636e72;
-  --card:#fff;
+  --card:#ffffff;
   --border:#e2e8f0;
   --shadow:0 4px 15px rgba(0,0,0,.05);
 }
@@ -41,10 +56,17 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
   padding:0;
 }
 
+html,
+body{
+  width:100%;
+  height:100%;
+}
+
 body{
   font-family:"Tajawal",sans-serif;
   background:var(--bg);
   color:var(--text);
+  overflow:hidden;
 }
 
 button,
@@ -55,6 +77,11 @@ input{
 button{
   cursor:pointer;
 }
+
+
+/* =========================
+   NAVBAR
+========================= */
 
 .navbar{
   height:65px;
@@ -71,23 +98,34 @@ button{
   height:100%;
   margin:auto;
   padding:0 15px;
+
   display:flex;
   align-items:center;
-  gap:15px;
+  justify-content:flex-start;
+
+  gap:12px;
 }
 
 .back-btn{
   width:42px;
   height:42px;
+
   border:none;
   border-radius:50%;
+
   background:#f4f4fa;
   color:var(--text);
+
   font-size:16px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
 }
 
 .back-btn:hover{
   color:var(--primary);
+  background:#f0edff;
 }
 
 .logo{
@@ -96,62 +134,118 @@ button{
   font-weight:700;
 }
 
+
+/* =========================
+   PAGE
+========================= */
+
 .page{
+  width:100%;
   max-width:1200px;
+
   height:calc(100vh - 65px);
+
   margin:auto;
+
   padding:20px 15px;
 }
 
 .messages-layout{
+  width:100%;
   height:100%;
+
   display:flex;
   gap:20px;
+
+  min-height:0;
 }
+
+
+/* =========================
+   FRIENDS PANEL
+========================= */
 
 .friends-panel{
   width:300px;
   flex-shrink:0;
+
   background:#fff;
+
   border:1px solid var(--border);
-  border-radius:15px;
+  border-radius:18px;
+
   box-shadow:var(--shadow);
+
   overflow:hidden;
+
+  display:flex;
+  flex-direction:column;
 }
 
 .panel-title{
-  padding:18px;
+  height:70px;
+
+  padding:0 18px;
+
   border-bottom:1px solid var(--border);
-  font-size:19px;
+
+  font-size:20px;
   font-weight:700;
+
+  display:flex;
+  align-items:center;
+  gap:7px;
+}
+
+.panel-title i{
+  color:#2d3436;
 }
 
 .friends-list{
-  height:calc(100% - 60px);
+  flex:1;
+
   overflow-y:auto;
+
+  min-height:0;
 }
 
 .friend{
   width:100%;
+
   border:none;
+
   background:#fff;
+
   display:flex;
   align-items:center;
-  gap:10px;
-  padding:13px;
+
+  gap:11px;
+
+  padding:13px 15px;
+
   text-align:right;
+
   border-bottom:1px solid #f0f0f0;
+
+  transition:.15s;
 }
 
-.friend:hover,
+.friend:hover{
+  background:#f8f7ff;
+}
+
 .friend.active{
   background:#f0edff;
 }
 
 .friend-avatar{
-  width:45px;
-  height:45px;
+  width:48px;
+  height:48px;
+
+  flex-shrink:0;
+
   border-radius:50%;
+
   object-fit:cover;
 }
 
@@ -161,82 +255,175 @@ button{
 }
 
 .friend-name{
+  font-size:14px;
   font-weight:700;
+
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
 }
 
 .friend-username{
   color:var(--muted);
+
   font-size:12px;
+
   margin-top:3px;
+
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
 }
+
+
+/* =========================
+   CHAT
+========================= */
 
 .chat{
   flex:1;
+
   min-width:0;
+  min-height:0;
+
   background:#fff;
+
   border:1px solid var(--border);
-  border-radius:15px;
+  border-radius:18px;
+
   box-shadow:var(--shadow);
+
   display:flex;
   flex-direction:column;
+
   overflow:hidden;
 }
 
+
+/* =========================
+   CHAT HEADER
+========================= */
+
 .chat-header{
   min-height:70px;
-  padding:12px 18px;
+
+  padding:10px 18px;
+
   border-bottom:1px solid var(--border);
+
   display:flex;
   align-items:center;
+
   gap:12px;
+
+  background:#fff;
 }
 
 .chat-header-avatar{
-  width:45px;
-  height:45px;
+  width:48px;
+  height:48px;
+
   border-radius:50%;
+
   object-fit:cover;
 }
 
 .chat-header-info{
   flex:1;
+
+  min-width:0;
 }
 
 .chat-header-name{
+  font-size:16px;
   font-weight:700;
 }
 
 .chat-header-username{
   color:var(--muted);
+
   font-size:12px;
+
   margin-top:2px;
 }
 
+
+/* =========================
+   MESSAGES AREA
+========================= */
+
 .messages{
   flex:1;
+
+  min-height:0;
+
   overflow-y:auto;
-  padding:20px;
-  background:#f8f9fb;
+
+  padding:25px;
+
+  background:#f7f8fc;
+
   display:flex;
   flex-direction:column;
-  gap:9px;
+
+  gap:12px;
 }
+
+.messages::-webkit-scrollbar{
+  width:6px;
+}
+
+.messages::-webkit-scrollbar-thumb{
+  background:#d8d9e5;
+  border-radius:10px;
+}
+
+.messages::-webkit-scrollbar-track{
+  background:transparent;
+}
+
+
+/* =========================
+   EMPTY CHAT
+========================= */
 
 .empty-chat{
   margin:auto;
+
   text-align:center;
+
   color:var(--muted);
+
+  padding:20px;
 }
 
 .empty-chat i{
+  display:block;
+
   font-size:45px;
+
   margin-bottom:12px;
+
   color:#c7c2f5;
 }
 
+.empty-chat small{
+  display:block;
+
+  margin-top:6px;
+
+  color:#8b9297;
+}
+
+
+/* =========================
+   MESSAGE ROW
+========================= */
+
 .message-row{
-  display:flex;
   width:100%;
+
+  display:flex;
 }
 
 .message-row.mine{
@@ -247,63 +434,149 @@ button{
   justify-content:flex-end;
 }
 
+
+/* =========================
+   MESSAGE BUBBLE
+========================= */
+
 .message-bubble{
-  max-width:min(70%,500px);
-  padding:10px 14px;
-  border-radius:15px;
-  line-height:1.6;
-  word-break:break-word;
+  width:fit-content;
+
+  min-width:70px;
+
+  max-width:65%;
+
+  padding:10px 15px 7px;
+
+  border-radius:18px;
+
+  line-height:1.7;
+
+  font-size:15px;
+
+  word-break:normal;
+
+  overflow-wrap:anywhere;
+
   white-space:pre-wrap;
 }
 
+
+/* رسائل المستخدم الحالي */
+
 .mine .message-bubble{
   background:var(--primary);
-  color:white;
-  border-bottom-right-radius:4px;
+
+  color:#fff;
+
+  border-bottom-right-radius:5px;
 }
+
+
+/* رسائل الطرف الآخر */
 
 .theirs .message-bubble{
   background:#fff;
+
+  color:var(--text);
+
   border:1px solid var(--border);
-  border-bottom-left-radius:4px;
+
+  border-bottom-left-radius:5px;
 }
+
+
+/* =========================
+   MESSAGE TIME
+========================= */
 
 .message-time{
   font-size:10px;
+
   opacity:.7;
-  margin-top:4px;
+
+  margin-top:3px;
+
   text-align:left;
+
+  direction:rtl;
+
+  white-space:nowrap;
 }
+
+
+/* =========================
+   SEND AREA
+========================= */
 
 .send-area{
   border-top:1px solid var(--border);
-  padding:12px;
+
+  padding:12px 15px;
+
   display:flex;
-  gap:8px;
+  align-items:center;
+
+  gap:10px;
+
   background:#fff;
 }
 
 .message-input{
   flex:1;
-  border:1px solid var(--border);
-  border-radius:23px;
-  padding:11px 15px;
+
+  height:48px;
+
+  border:1px solid #d9dbe7;
+
+  border-radius:25px;
+
+  padding:0 18px;
+
   outline:none;
-  font-size:14px;
+
+  font-size:15px;
+
+  background:#fafbff;
+
+  direction:rtl;
+
+  transition:.15s;
 }
 
 .message-input:focus{
   border-color:var(--primary);
+
+  background:#fff;
+}
+
+.message-input:disabled{
+  background:#f1f2f5;
+
+  cursor:not-allowed;
 }
 
 .send-btn{
-  width:45px;
-  height:45px;
+  width:48px;
+  height:48px;
+
   flex-shrink:0;
+
   border:none;
+
   border-radius:50%;
+
   background:var(--primary);
-  color:white;
+
+  color:#fff;
+
+  font-size:17px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  transition:.15s;
 }
 
 .send-btn:hover{
@@ -312,25 +585,65 @@ button{
 
 .send-btn:disabled{
   opacity:.6;
+
+  cursor:not-allowed;
 }
+
+
+/* =========================
+   LOADING
+========================= */
 
 .loading{
   padding:25px;
+
   text-align:center;
+
   color:var(--muted);
 }
 
+
+/* =========================
+   ERROR
+========================= */
+
 .error{
   padding:25px;
+
   text-align:center;
+
   color:#e74c3c;
+
+  font-size:14px;
 }
+
+
+/* =========================
+   MOBILE
+========================= */
 
 @media(max-width:700px){
 
+  body{
+    overflow:hidden;
+  }
+
+  .navbar{
+    height:60px;
+  }
+
+  .nav-container{
+    padding:0 12px;
+  }
+
+  .logo{
+    font-size:22px;
+  }
+
   .page{
+    height:calc(100vh - 60px);
+
     padding:0;
-    height:calc(100vh - 65px);
   }
 
   .messages-layout{
@@ -342,22 +655,84 @@ button{
   }
 
   .chat{
+    width:100%;
     height:100%;
+
     border-radius:0;
+
     border-left:none;
     border-right:none;
+    border-bottom:none;
+
+    box-shadow:none;
+  }
+
+  .chat-header{
+    min-height:65px;
+
+    padding:8px 13px;
+  }
+
+  .chat-header-avatar{
+    width:44px;
+    height:44px;
+  }
+
+  .messages{
+    padding:18px 12px;
+
+    gap:10px;
   }
 
   .message-bubble{
     max-width:82%;
+
+    font-size:14px;
+
+    padding:9px 13px 6px;
+  }
+
+  .send-area{
+    padding:9px;
+  }
+
+  .message-input{
+    height:46px;
+
+    font-size:14px;
+  }
+
+  .send-btn{
+    width:46px;
+    height:46px;
+  }
+
+}
+
+
+/* =========================
+   SMALL MOBILE
+========================= */
+
+@media(max-width:380px){
+
+  .message-bubble{
+    max-width:88%;
+  }
+
+  .messages{
+    padding:15px 8px;
   }
 
 }
 
 </style>
+
 </head>
 
+
 <body>
+
 
 <header class="navbar">
 
@@ -366,6 +741,7 @@ button{
     <button
       class="back-btn"
       onclick="goHome()"
+      title="العودة"
     >
       <i class="fa-solid fa-arrow-right"></i>
     </button>
@@ -381,100 +757,126 @@ button{
 
 <div class="page">
 
-<div class="messages-layout">
+  <div class="messages-layout">
 
 
-<aside class="friends-panel">
+    <!-- قائمة الأصدقاء -->
 
-  <div class="panel-title">
-    <i class="fa-solid fa-comments"></i>
-    المراسلة
-  </div>
+    <aside class="friends-panel">
 
-  <div
-    id="friendsList"
-    class="friends-list"
-  >
+      <div class="panel-title">
 
-    <div class="loading">
-      جاري تحميل الأصدقاء...
-    </div>
+        <i class="fa-solid fa-comments"></i>
 
-  </div>
+        المراسلة
 
-</aside>
-
-
-<main class="chat">
-
-  <div
-    id="chatHeader"
-    class="chat-header"
-  >
-
-    <div class="empty-chat">
-      <i class="fa-regular fa-comments"></i>
-      <div>
-        اختر صديقًا لبدء المحادثة
-      </div>
-    </div>
-
-  </div>
-
-
-  <div
-    id="messages"
-    class="messages"
-  >
-
-    <div class="empty-chat">
-
-      <i class="fa-regular fa-message"></i>
-
-      <div>
-        اختر صديقًا من القائمة
       </div>
 
-    </div>
+
+      <div
+        id="friendsList"
+        class="friends-list"
+      >
+
+        <div class="loading">
+          جاري تحميل الأصدقاء...
+        </div>
+
+      </div>
+
+    </aside>
+
+
+    <!-- المحادثة -->
+
+    <main class="chat">
+
+
+      <div
+        id="chatHeader"
+        class="chat-header"
+      >
+
+        <div class="empty-chat">
+
+          <i class="fa-regular fa-comments"></i>
+
+          <div>
+            اختر صديقًا لبدء المحادثة
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <div
+        id="messages"
+        class="messages"
+      >
+
+        <div class="empty-chat">
+
+          <i class="fa-regular fa-message"></i>
+
+          <div>
+            اختر صديقًا من القائمة
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <div class="send-area">
+
+        <input
+          id="messageInput"
+          class="message-input"
+          type="text"
+          placeholder="اكتب رسالة..."
+          maxlength="2000"
+          autocomplete="off"
+          disabled
+        >
+
+
+        <button
+          id="sendButton"
+          class="send-btn"
+          onclick="sendMessage()"
+          disabled
+          title="إرسال"
+        >
+
+          <i class="fa-solid fa-paper-plane"></i>
+
+        </button>
+
+      </div>
+
+
+    </main>
+
 
   </div>
-
-
-  <div class="send-area">
-
-    <input
-      id="messageInput"
-      class="message-input"
-      placeholder="اكتب رسالة..."
-      maxlength="2000"
-      disabled
-    >
-
-    <button
-      id="sendButton"
-      class="send-btn"
-      onclick="sendMessage()"
-      disabled
-    >
-      <i class="fa-solid fa-paper-plane"></i>
-    </button>
-
-  </div>
-
-</main>
-
-
-</div>
 
 </div>
 
 
 <script>
 
+
+/* =========================
+   المتغيرات
+========================= */
+
 let currentUser=null;
+
 let currentProfile=null;
 
 let selectedFriend=null;
+
 let currentConversationId=null;
 
 let realtimeChannel=null;
@@ -506,6 +908,9 @@ function getAvatar(name){
 
 
 function formatTime(date){
+
+  if(!date)
+    return "";
 
   return new Date(date).toLocaleString(
     "ar-EG",
@@ -539,12 +944,14 @@ async function initPage(){
     }=await supabaseClient.auth.getSession();
 
 
-    if(error) throw error;
+    if(error)
+      throw error;
 
 
     if(!session){
 
       window.location.href="index.html";
+
       return;
 
     }
@@ -575,17 +982,23 @@ async function initPage(){
 
     setupRealtime();
 
+
+    checkUrlUser();
+
   }
   catch(error){
 
     console.error(error);
+
 
     document.getElementById(
       "friendsList"
     ).innerHTML=`
 
       <div class="error">
+
         ${escapeHTML(error.message)}
+
       </div>
 
     `;
@@ -602,7 +1015,9 @@ async function initPage(){
 async function loadFriends(){
 
   const box=
-    document.getElementById("friendsList");
+    document.getElementById(
+      "friendsList"
+    );
 
 
   try{
@@ -619,7 +1034,8 @@ async function loadFriends(){
       );
 
 
-    if(error) throw error;
+    if(error)
+      throw error;
 
 
     if(!data?.length){
@@ -638,9 +1054,13 @@ async function loadFriends(){
 
 
     const ids=data.map(x=>
+
       x.sender_id===currentUser.id
+
       ?x.receiver_id
+
       :x.sender_id
+
     );
 
 
@@ -649,7 +1069,9 @@ async function loadFriends(){
       error:profilesError
     }=await supabaseClient
       .from("profiles")
-      .select("id,name,username")
+      .select(
+        "id,name,username"
+      )
       .in("id",ids);
 
 
@@ -669,7 +1091,8 @@ async function loadFriends(){
       button.className="friend";
 
 
-      button.dataset.userId=user.id;
+      button.dataset.userId=
+        user.id;
 
 
       button.innerHTML=`
@@ -677,16 +1100,27 @@ async function loadFriends(){
         <img
           class="friend-avatar"
           src="${getAvatar(user.name)}"
+          alt=""
         >
+
 
         <div class="friend-info">
 
           <div class="friend-name">
-            ${escapeHTML(user.name || "مستخدم")}
+
+            ${escapeHTML(
+              user.name || "مستخدم"
+            )}
+
           </div>
 
+
           <div class="friend-username">
-            @${escapeHTML(user.username || "")}
+
+            @${escapeHTML(
+              user.username || ""
+            )}
+
           </div>
 
         </div>
@@ -709,10 +1143,17 @@ async function loadFriends(){
   }
   catch(error){
 
+    console.error(error);
+
+
     box.innerHTML=`
 
       <div class="error">
-        ${escapeHTML(error.message)}
+
+        ${escapeHTML(
+          error.message
+        )}
+
       </div>
 
     `;
@@ -723,7 +1164,7 @@ async function loadFriends(){
 
 
 /* =========================
-   فتح المحادثة
+   فتح محادثة
 ========================= */
 
 async function openChat(user){
@@ -733,11 +1174,18 @@ async function openChat(user){
 
   document
     .querySelectorAll(".friend")
-    .forEach(x=>{
-      x.classList.remove("active");
+    .forEach(button=>{
 
-      if(x.dataset.userId===user.id){
-        x.classList.add("active");
+      button.classList.remove("active");
+
+
+      if(
+        button.dataset.userId===
+        user.id
+      ){
+
+        button.classList.add("active");
+
       }
 
     });
@@ -750,16 +1198,27 @@ async function openChat(user){
     <img
       class="chat-header-avatar"
       src="${getAvatar(user.name)}"
+      alt=""
     >
+
 
     <div class="chat-header-info">
 
       <div class="chat-header-name">
-        ${escapeHTML(user.name || "مستخدم")}
+
+        ${escapeHTML(
+          user.name || "مستخدم"
+        )}
+
       </div>
 
+
       <div class="chat-header-username">
-        @${escapeHTML(user.username || "")}
+
+        @${escapeHTML(
+          user.username || ""
+        )}
+
       </div>
 
     </div>
@@ -788,15 +1247,23 @@ async function openChat(user){
 
 async function getOrCreateConversation(){
 
+  if(!selectedFriend)
+    return;
+
+
   const first=
     currentUser.id < selectedFriend.id
+
     ?currentUser.id
+
     :selectedFriend.id;
 
 
   const second=
     currentUser.id < selectedFriend.id
+
     ?selectedFriend.id
+
     :currentUser.id;
 
 
@@ -811,12 +1278,14 @@ async function getOrCreateConversation(){
     .maybeSingle();
 
 
-  if(error) throw error;
+  if(error)
+    throw error;
 
 
   if(existing){
 
-    currentConversationId=existing.id;
+    currentConversationId=
+      existing.id;
 
   }
   else{
@@ -859,7 +1328,9 @@ async function getOrCreateConversation(){
 async function loadMessages(){
 
   const box=
-    document.getElementById("messages");
+    document.getElementById(
+      "messages"
+    );
 
 
   box.innerHTML=`
@@ -883,7 +1354,9 @@ async function loadMessages(){
     )
     .order(
       "created_at",
-      {ascending:true}
+      {
+        ascending:true
+      }
     );
 
 
@@ -892,7 +1365,11 @@ async function loadMessages(){
     box.innerHTML=`
 
       <div class="error">
-        ${escapeHTML(error.message)}
+
+        ${escapeHTML(
+          error.message
+        )}
+
       </div>
 
     `;
@@ -943,17 +1420,31 @@ async function loadMessages(){
 
 
 /* =========================
-   عرض رسالة
+   عرض الرسالة
 ========================= */
 
 function renderMessage(message){
 
   const box=
-    document.getElementById("messages");
+    document.getElementById(
+      "messages"
+    );
+
+
+  if(
+    document.querySelector(
+      `[data-message-id="${message.id}"]`
+    )
+  ){
+
+    return;
+
+  }
 
 
   const mine=
-    message.sender_id===currentUser.id;
+    message.sender_id===
+    currentUser.id;
 
 
   const row=
@@ -962,7 +1453,11 @@ function renderMessage(message){
 
   row.className=
     "message-row "+
-    (mine ? "mine" : "theirs");
+    (
+      mine
+      ?"mine"
+      :"theirs"
+    );
 
 
   row.dataset.messageId=
@@ -973,10 +1468,17 @@ function renderMessage(message){
 
     <div class="message-bubble">
 
-      ${escapeHTML(message.message)}
+      ${escapeHTML(
+        message.message
+      )}
+
 
       <div class="message-time">
-        ${formatTime(message.created_at)}
+
+        ${formatTime(
+          message.created_at
+        )}
+
       </div>
 
     </div>
@@ -990,7 +1492,7 @@ function renderMessage(message){
 
 
 /* =========================
-   إرسال رسالة
+   إرسال الرسالة
 ========================= */
 
 async function sendMessage(){
@@ -1020,6 +1522,7 @@ async function sendMessage(){
 
 
   input.disabled=true;
+
   button.disabled=true;
 
 
@@ -1052,6 +1555,9 @@ async function sendMessage(){
   }
   catch(error){
 
+    console.error(error);
+
+
     alert(
       "تعذر إرسال الرسالة:\n"+
       error.message
@@ -1061,6 +1567,7 @@ async function sendMessage(){
   finally{
 
     input.disabled=false;
+
     button.disabled=false;
 
     input.focus();
@@ -1071,11 +1578,13 @@ async function sendMessage(){
 
 
 /* =========================
-   Enter للإرسال
+   Enter
 ========================= */
 
 document
-  .getElementById("messageInput")
+  .getElementById(
+    "messageInput"
+  )
   .addEventListener(
     "keydown",
     function(event){
@@ -1096,14 +1605,16 @@ document
 
 
 /* =========================
-   التحديث الفوري
+   Realtime
 ========================= */
 
 function setupRealtime(){
 
   realtimeChannel=
     supabaseClient
-      .channel("rang-messages")
+      .channel(
+        "rang-messages"
+      )
       .on(
         "postgres_changes",
         {
@@ -1122,29 +1633,20 @@ function setupRealtime(){
             currentConversationId
           ){
 
-            const exists=
+            const empty=
               document.querySelector(
-                `[data-message-id="${message.id}"]`
+                ".messages .empty-chat"
               );
 
 
-            if(!exists){
-
-              const empty=
-                document.querySelector(
-                  ".messages .empty-chat"
-                );
+            if(empty)
+              empty.remove();
 
 
-              if(empty)
-                empty.remove();
+            renderMessage(message);
 
 
-              renderMessage(message);
-
-              scrollMessages();
-
-            }
+            scrollMessages();
 
           }
 
@@ -1167,8 +1669,66 @@ function scrollMessages(){
     );
 
 
-  box.scrollTop=
-    box.scrollHeight;
+  setTimeout(()=>{
+
+    box.scrollTop=
+      box.scrollHeight;
+
+  },50);
+
+}
+
+
+/* =========================
+   فتح مستخدم من الرابط
+========================= */
+
+async function checkUrlUser(){
+
+  const params=
+    new URLSearchParams(
+      window.location.search
+    );
+
+
+  const userId=
+    params.get("user");
+
+
+  if(!userId)
+    return;
+
+
+  try{
+
+    const {
+      data:user,
+      error
+    }=await supabaseClient
+      .from("profiles")
+      .select(
+        "id,name,username"
+      )
+      .eq("id",userId)
+      .maybeSingle();
+
+
+    if(error)
+      throw error;
+
+
+    if(user){
+
+      await openChat(user);
+
+    }
+
+  }
+  catch(error){
+
+    console.error(error);
+
+  }
 
 }
 
@@ -1182,4 +1742,5 @@ initPage();
 </script>
 
 </body>
-  </html>
+
+</html>
