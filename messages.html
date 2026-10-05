@@ -294,7 +294,7 @@ button{
   background:#f8f9fb;
   display:flex;
   flex-direction:column;
-  gap:8px;
+  gap:6px;
 }
 
 .chat-empty{
@@ -309,9 +309,13 @@ button{
   margin-bottom:12px;
 }
 
+
+/* الرسائل */
+
 .message-row{
   width:100%;
   display:flex;
+  margin:2px 0;
 }
 
 .message-row.sent{
@@ -322,41 +326,90 @@ button{
   justify-content:flex-end;
 }
 
+
+/* فقاعة الرسالة */
+
 .message-bubble{
-  width:fit-content;
-  max-width:min(65%,500px);
-  padding:9px 13px 7px;
-  border-radius:15px;
+  display:inline-flex;
+  flex-direction:column;
+
+  width:auto;
+  max-width:min(72%,420px);
+  min-width:0;
+
+  padding:7px 10px 5px;
+
+  border-radius:12px;
+
   word-break:break-word;
   overflow-wrap:anywhere;
-  line-height:1.55;
+
+  line-height:1.45;
   font-size:15px;
+
+  box-shadow:0 1px 1px rgba(0,0,0,.08);
 }
+
+
+/* الرسائل المرسلة */
 
 .message-row.sent .message-bubble{
   background:var(--sent);
   color:#fff;
-  border-bottom-right-radius:5px;
+  border:none;
+  border-bottom-right-radius:4px;
 }
+
+
+/* الرسائل المستلمة */
 
 .message-row.received .message-bubble{
   background:#fff;
   color:var(--text);
-  border:1px solid #e5e6eb;
-  border-bottom-left-radius:5px;
+  border:1px solid #e5e7eb;
+  border-bottom-left-radius:4px;
 }
+
+
+/* نص الرسالة */
 
 .message-text{
   white-space:pre-wrap;
+  line-height:1.5;
 }
 
+
+/* وقت الرسالة */
+
 .message-time{
+  align-self:flex-end;
+
   font-size:10px;
-  margin-top:4px;
-  opacity:.7;
-  text-align:left;
+  line-height:1;
+
+  margin-top:3px;
+
+  opacity:.65;
+
+  white-space:nowrap;
+
   direction:rtl;
 }
+
+
+/* وقت الرسائل المرسلة */
+
+.message-row.sent .message-time{
+  color:rgba(255,255,255,.8);
+}
+
+
+/* وقت الرسائل المستلمة */
+
+.message-row.received .message-time{
+  color:#6b7280;
+}
+
 
 .chat-footer{
   padding:12px;
@@ -422,6 +475,7 @@ button{
 .no-chat h3{
   color:var(--text);
 }
+
 
 @media(max-width:800px){
 
@@ -504,10 +558,29 @@ button{
     padding:14px 10px;
   }
 
+
+  /* شكل الرسالة على الموبايل */
+
   .message-bubble{
-    max-width:78%;
+    max-width:82%;
+    padding:6px 9px 5px;
+    border-radius:12px;
     font-size:14px;
   }
+
+  .message-row.sent .message-bubble{
+    border-bottom-right-radius:4px;
+  }
+
+  .message-row.received .message-bubble{
+    border-bottom-left-radius:4px;
+  }
+
+  .message-time{
+    font-size:9px;
+    margin-top:3px;
+  }
+
 
   .chat-footer{
     padding:8px;
