@@ -1,19 +1,40 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
+
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Rang Social - الصفحة الرئيسية</title>
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0"
+>
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+<title>Range Social - الصفحة الرئيسية</title>
 
-<link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link
+  rel="preconnect"
+  href="https://fonts.googleapis.com"
+>
+
+<link
+  rel="preconnect"
+  href="https://fonts.gstatic.com"
+  crossorigin
+>
+
+<link
+  href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap"
+  rel="stylesheet"
+>
+
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <script src="config.js"></script>
 
 <style>
@@ -41,9 +62,12 @@ body{
   font-family:"Tajawal",sans-serif;
   background:var(--bg);
   color:var(--text);
+  min-height:100vh;
 }
 
-button,input,textarea{
+button,
+input,
+textarea{
   font-family:inherit;
 }
 
@@ -80,6 +104,7 @@ button{
   display:flex;
   align-items:center;
   gap:8px;
+  white-space:nowrap;
 }
 
 .search-box{
@@ -95,6 +120,10 @@ button{
   border-radius:25px;
   padding:11px 45px 11px 15px;
   outline:none;
+}
+
+.search-box input:focus{
+  border-color:var(--primary);
 }
 
 .search-box i{
@@ -134,7 +163,7 @@ button{
 .page-container{
   max-width:1200px;
   margin:25px auto;
-  padding:0 15px;
+  padding:0 15px 80px;
 }
 
 .layout{
@@ -331,6 +360,33 @@ button{
   padding:18px;
 }
 
+/* المنشور الترحيبي */
+
+.welcome-post{
+  border:1px solid #dcd5ff;
+  background:#fff;
+}
+
+.welcome-post .post-author-name{
+  color:var(--primary);
+}
+
+.welcome-post .post-text{
+  line-height:2;
+  font-size:15px;
+}
+
+/* علامة المطور */
+
+.developer-badge{
+  display:inline-flex;
+  align-items:center;
+  gap:4px;
+  color:var(--primary);
+  font-size:11px;
+  margin-right:5px;
+}
+
 .post-header{
   display:flex;
   align-items:center;
@@ -342,6 +398,7 @@ button{
   height:45px;
   border-radius:50%;
   object-fit:cover;
+  background:#eee;
 }
 
 .post-author{
@@ -480,7 +537,7 @@ button{
   font-size:13px;
 }
 
-/* أصدقاء */
+/* الأصدقاء */
 
 .section-title{
   margin-bottom:15px;
@@ -567,16 +624,6 @@ button{
   color:var(--muted);
 }
 
-.spinner{
-  animation:spin 1s linear infinite;
-  display:inline-block;
-  margin-left:7px;
-}
-
-@keyframes spin{
-  to{transform:rotate(360deg);}
-}
-
 /* الاختبارات */
 
 .test-card{
@@ -630,15 +677,64 @@ button{
   color:#c0392b;
 }
 
-/* تعديلات الشاشات اللوحية (التابلت) */
-@media(max-width: 1024px){
-  .sidebar{
-    width: 210px;
-  }
+/* شريط الهاتف */
+
+.mobile-nav{
+  display:none;
 }
 
-/* تعديلات الهواتف المحمولة */
+.mobile-nav-btn{
+  border:none;
+  background:transparent;
+  color:#777;
+  font-size:11px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:4px;
+  min-width:55px;
+  flex:1;
+  height:60px;
+}
+
+.mobile-nav-btn i{
+  font-size:19px;
+}
+
+.mobile-nav-btn.active{
+  color:var(--primary);
+}
+
+.mobile-nav-btn.logout-mobile{
+  color:var(--danger);
+}
+
+/* التابلت */
+
+@media(max-width:1024px){
+
+  .sidebar{
+    width:210px;
+  }
+
+}
+
+/* الهاتف */
+
 @media(max-width:768px){
+
+  .navbar{
+    height:60px;
+  }
+
+  .nav-container{
+    padding:0 10px;
+  }
+
+  .logo{
+    font-size:21px;
+  }
 
   .search-box{
     display:none;
@@ -654,7 +750,23 @@ button{
 
   .page-container{
     margin-top:15px;
-    padding:0 10px 70px 10px; /* مساحة إضافية من الأسفل */
+    padding:0 10px 80px;
+  }
+
+  .mobile-nav{
+    position:fixed;
+    display:flex;
+    align-items:center;
+    justify-content:space-around;
+    bottom:0;
+    left:0;
+    right:0;
+    height:65px;
+    background:#fff;
+    border-top:1px solid var(--border);
+    box-shadow:0 -4px 15px rgba(0,0,0,.08);
+    z-index:2000;
+    padding:2px 4px;
   }
 
   .post-card,
@@ -666,12 +778,68 @@ button{
     gap:0;
   }
 
+  .post-action{
+    font-size:13px;
+    padding:9px 4px;
+  }
+
+  .create-top{
+    gap:8px;
+  }
+
+  .create-avatar{
+    width:42px;
+    height:42px;
+  }
+
+  .post-textarea{
+    min-height:75px;
+  }
+
+  .friend-result,
+  .friend-item,
+  .request-item{
+    flex-wrap:wrap;
+  }
+
+  .friend-info{
+    min-width:130px;
+  }
+
+}
+
+@media(max-width:400px){
+
+  .nav-actions{
+    gap:4px;
+  }
+
+  .icon-btn{
+    width:36px;
+    height:36px;
+  }
+
+  .nav-avatar{
+    width:36px;
+    height:36px;
+  }
+
+  .logo{
+    font-size:19px;
+  }
+
+  .post-action{
+    font-size:12px;
+  }
+
 }
 
 </style>
+
 </head>
 
 <body>
+
 
 <header class="navbar">
 
@@ -698,6 +866,7 @@ button{
       <button
         class="icon-btn"
         onclick="showSection('friendsSection')"
+        title="الأصدقاء"
       >
         <i class="fa-solid fa-user-group"></i>
       </button>
@@ -705,6 +874,7 @@ button{
       <button
         class="icon-btn"
         onclick="loadAllData()"
+        title="تحديث"
       >
         <i class="fa-solid fa-rotate"></i>
       </button>
@@ -713,6 +883,7 @@ button{
         id="navAvatar"
         class="nav-avatar"
         src="https://ui-avatars.com/api/?name=Rang"
+        alt="الصورة الشخصية"
       >
 
     </div>
@@ -724,344 +895,386 @@ button{
 
 <div class="page-container">
 
-<div class="layout">
+  <div class="layout">
 
 
-<!-- SIDEBAR -->
+    <!-- القائمة الجانبية -->
 
-<aside class="sidebar">
+    <aside class="sidebar">
 
-  <div class="card profile-mini">
+      <div class="card profile-mini">
 
-    <img
-      id="sideAvatar"
-      src="https://ui-avatars.com/api/?name=Rang"
-    >
+        <img
+          id="sideAvatar"
+          src="https://ui-avatars.com/api/?name=Rang"
+          alt="الصورة الشخصية"
+        >
 
-    <h3 id="sideName">
-      مستخدم Rang
-    </h3>
+        <h3 id="sideName">
+          مستخدم Rang
+        </h3>
 
-    <p id="sideUsername">
-      @rang_user
-    </p>
+        <p id="sideUsername">
+          @rang_user
+        </p>
 
-  </div>
-
-
-  <div class="card side-menu">
-
-    <button
-      class="menu-btn active"
-      onclick="showSection('homeSection',this)"
-    >
-      <i class="fa-solid fa-house"></i>
-      الرئيسية
-    </button>
-
-    <button
-      class="menu-btn"
-      onclick="showSection('friendsSection',this)"
-    >
-      <i class="fa-solid fa-user-group"></i>
-      الأصدقاء
-    </button>
-
-    <button
-      class="menu-btn"
-      onclick="showSection('testsSection',this)"
-    >
-      <i class="fa-solid fa-file-pen"></i>
-      الاختبارات
-    </button>
-
-    <button
-      class="menu-btn"
-      onclick="showSection('profileSection',this)"
-    >
-      <i class="fa-solid fa-user"></i>
-      الملف الشخصي
-    </button>
-
-    <button
-      class="menu-btn logout-btn"
-      onclick="logout()"
-    >
-      <i class="fa-solid fa-right-from-bracket"></i>
-      تسجيل الخروج
-    </button>
-
-  </div>
-
-</aside>
+      </div>
 
 
-<main class="main-content">
+      <div class="card side-menu">
+
+        <button
+          class="menu-btn active"
+          onclick="showSection('homeSection',this)"
+        >
+          <i class="fa-solid fa-house"></i>
+          الرئيسية
+        </button>
+
+        <button
+          class="menu-btn"
+          onclick="showSection('friendsSection',this)"
+        >
+          <i class="fa-solid fa-user-group"></i>
+          الأصدقاء
+        </button>
+
+        <button
+          class="menu-btn"
+          onclick="showSection('testsSection',this)"
+        >
+          <i class="fa-solid fa-file-pen"></i>
+          الاختبارات
+        </button>
+
+        <button
+          class="menu-btn"
+          onclick="showSection('profileSection',this)"
+        >
+          <i class="fa-solid fa-user"></i>
+          الملف الشخصي
+        </button>
+
+        <button
+          class="menu-btn logout-btn"
+          onclick="logout()"
+        >
+          <i class="fa-solid fa-right-from-bracket"></i>
+          تسجيل الخروج
+        </button>
+
+      </div>
+
+    </aside>
 
 
-<!-- =========================
-     HOME
-========================= -->
-
-<section
-  id="homeSection"
-  class="section active"
->
+    <main class="main-content">
 
 
-<!-- CREATE POST -->
+      <!-- الرئيسية -->
 
-<div class="card create-post">
-
-  <div class="create-top">
-
-    <img
-      id="currentAvatar"
-      class="create-avatar"
-      src="https://ui-avatars.com/api/?name=Rang"
-    >
-
-    <textarea
-      id="postText"
-      class="post-textarea"
-      placeholder="بمَ تفكر اليوم؟ شارك لحظاتك..."
-    ></textarea>
-
-  </div>
-
-
-  <div
-    id="selectedFile"
-    class="selected-file"
-  >
-
-    <span id="selectedFileName"></span>
-
-    <button
-      class="remove-file"
-      onclick="removeSelectedFile()"
-    >
-      <i class="fa-solid fa-xmark"></i>
-    </button>
-
-  </div>
-
-
-  <div class="create-actions">
-
-    <div class="media-actions">
-
-      <button
-        class="media-btn"
-        onclick="document.getElementById('imageInput').click()"
+      <section
+        id="homeSection"
+        class="section active"
       >
-        <i class="fa-regular fa-image"></i>
-        صورة
-      </button>
 
-      <button
-        class="media-btn"
-        onclick="document.getElementById('videoInput').click()"
+
+        <!-- إنشاء منشور -->
+
+        <div class="card create-post">
+
+          <div class="create-top">
+
+            <img
+              id="currentAvatar"
+              class="create-avatar"
+              src="https://ui-avatars.com/api/?name=Rang"
+              alt="الصورة الشخصية"
+            >
+
+            <textarea
+              id="postText"
+              class="post-textarea"
+              placeholder="بمَ تفكر اليوم؟ شارك لحظاتك..."
+            ></textarea>
+
+          </div>
+
+
+          <div
+            id="selectedFile"
+            class="selected-file"
+          >
+
+            <span id="selectedFileName"></span>
+
+            <button
+              class="remove-file"
+              onclick="removeSelectedFile()"
+            >
+              <i class="fa-solid fa-xmark"></i>
+            </button>
+
+          </div>
+
+
+          <div class="create-actions">
+
+            <div class="media-actions">
+
+              <button
+                class="media-btn"
+                onclick="document.getElementById('imageInput').click()"
+              >
+                <i class="fa-regular fa-image"></i>
+                صورة
+              </button>
+
+              <button
+                class="media-btn"
+                onclick="document.getElementById('videoInput').click()"
+              >
+                <i class="fa-solid fa-video"></i>
+                فيديو
+              </button>
+
+            </div>
+
+
+            <button
+              id="publishBtn"
+              class="publish-btn"
+              onclick="publishPost()"
+            >
+              نشر
+            </button>
+
+          </div>
+
+
+          <input
+            id="imageInput"
+            type="file"
+            accept="image/*"
+            hidden
+            onchange="handleFileSelect(this,'image')"
+          >
+
+          <input
+            id="videoInput"
+            type="file"
+            accept="video/*"
+            hidden
+            onchange="handleFileSelect(this,'video')"
+          >
+
+          <div id="postMessage"></div>
+
+        </div>
+
+
+        <!-- المنشورات -->
+
+        <div id="postsContainer">
+
+          <div class="loading">
+            جاري تحميل المنشورات...
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- الأصدقاء -->
+
+      <section
+        id="friendsSection"
+        class="section"
       >
-        <i class="fa-solid fa-video"></i>
-        فيديو
-      </button>
 
-    </div>
+        <h2 class="section-title">
+          <i class="fa-solid fa-user-group"></i>
+          الأصدقاء
+        </h2>
 
 
-    <button
-      id="publishBtn"
-      class="publish-btn"
-      onclick="publishPost()"
-    >
-      نشر
-    </button>
+        <div class="card search-friend">
+
+          <input
+            id="friendSearchInput"
+            placeholder="ابحث باسم المستخدم أو الاسم..."
+          >
+
+          <button
+            class="primary-btn"
+            onclick="searchFriends()"
+          >
+            بحث
+          </button>
+
+        </div>
+
+
+        <div
+          id="friendSearchResults"
+          class="card"
+        ></div>
+
+
+        <h3 style="margin:20px 0 10px;">
+          طلبات الصداقة
+        </h3>
+
+
+        <div
+          id="friendRequests"
+          class="card"
+        ></div>
+
+
+        <h3 style="margin:20px 0 10px;">
+          أصدقائي
+        </h3>
+
+
+        <div
+          id="friendsList"
+          class="card"
+        ></div>
+
+      </section>
+
+
+      <!-- الاختبارات -->
+
+      <section
+        id="testsSection"
+        class="section"
+      >
+
+        <h2 class="section-title">
+          <i class="fa-solid fa-file-pen"></i>
+          الاختبارات
+        </h2>
+
+        <div id="testsContainer"></div>
+
+      </section>
+
+
+      <!-- الملف الشخصي -->
+
+      <section
+        id="profileSection"
+        class="section"
+      >
+
+        <h2 class="section-title">
+          <i class="fa-solid fa-user"></i>
+          الملف الشخصي
+        </h2>
+
+
+        <div class="card profile-mini">
+
+          <img
+            id="profileAvatar"
+            src="https://ui-avatars.com/api/?name=Rang"
+            alt="الصورة الشخصية"
+          >
+
+          <h3 id="profileName">
+            مستخدم Rang
+          </h3>
+
+          <p id="profileUsername"></p>
+
+          <p
+            id="profileEmail"
+            style="margin-top:8px;"
+          ></p>
+
+          <p
+            id="profileType"
+            style="margin-top:8px;"
+          ></p>
+
+        </div>
+
+      </section>
+
+
+    </main>
 
   </div>
-
-
-  <input
-    id="imageInput"
-    type="file"
-    accept="image/*"
-    hidden
-    onchange="handleFileSelect(this,'image')"
-  >
-
-  <input
-    id="videoInput"
-    type="file"
-    accept="video/*"
-    hidden
-    onchange="handleFileSelect(this,'video')"
-  >
-
-  <div id="postMessage"></div>
 
 </div>
 
 
-<!-- POSTS -->
+<!-- قائمة الهاتف -->
 
-<div id="postsContainer">
-
-  <div class="loading">
-    جاري تحميل المنشورات...
-  </div>
-
-</div>
-
-</section>
-
-
-<!-- =========================
-     FRIENDS
-========================= -->
-
-<section
-  id="friendsSection"
-  class="section"
->
-
-<h2 class="section-title">
-  <i class="fa-solid fa-user-group"></i>
-  الأصدقاء
-</h2>
-
-
-<div class="card search-friend">
-
-  <input
-    id="friendSearchInput"
-    placeholder="ابحث باسم المستخدم أو الاسم..."
-  >
+<nav class="mobile-nav">
 
   <button
-    class="primary-btn"
-    onclick="searchFriends()"
+    class="mobile-nav-btn active"
+    onclick="showMobileSection('homeSection',this)"
   >
-    بحث
+    <i class="fa-solid fa-house"></i>
+    <span>الرئيسية</span>
   </button>
 
-</div>
 
-
-<div
-  id="friendSearchResults"
-  class="card"
-></div>
-
-
-<h3 style="margin:20px 0 10px;">
-  طلبات الصداقة
-</h3>
-
-
-<div
-  id="friendRequests"
-  class="card"
-></div>
-
-
-<h3 style="margin:20px 0 10px;">
-  أصدقائي
-</h3>
-
-
-<div
-  id="friendsList"
-  class="card"
-></div>
-
-</section>
-
-
-<!-- =========================
-     TESTS
-========================= -->
-
-<section
-  id="testsSection"
-  class="section"
->
-
-<h2 class="section-title">
-  <i class="fa-solid fa-file-pen"></i>
-  الاختبارات
-</h2>
-
-<div id="testsContainer"></div>
-
-</section>
-
-
-<!-- =========================
-     PROFILE
-========================= -->
-
-<section
-  id="profileSection"
-  class="section"
->
-
-<h2 class="section-title">
-  <i class="fa-solid fa-user"></i>
-  الملف الشخصي
-</h2>
-
-
-<div class="card profile-mini">
-
-  <img
-    id="profileAvatar"
-    src="https://ui-avatars.com/api/?name=Rang"
+  <button
+    class="mobile-nav-btn"
+    onclick="showMobileSection('friendsSection',this)"
   >
-
-  <h3 id="profileName">
-    مستخدم Rang
-  </h3>
-
-  <p id="profileUsername"></p>
-
-  <p
-    id="profileEmail"
-    style="margin-top:8px;"
-  ></p>
-
-  <p
-    id="profileType"
-    style="margin-top:8px;"
-  ></p>
-
-</div>
-
-</section>
+    <i class="fa-solid fa-user-group"></i>
+    <span>الأصدقاء</span>
+  </button>
 
 
-</main>
+  <button
+    class="mobile-nav-btn"
+    onclick="showMobileSection('testsSection',this)"
+  >
+    <i class="fa-solid fa-file-pen"></i>
+    <span>الاختبارات</span>
+  </button>
 
-</div>
 
-</div>
+  <button
+    class="mobile-nav-btn"
+    onclick="showMobileSection('profileSection',this)"
+  >
+    <i class="fa-solid fa-user"></i>
+    <span>حسابي</span>
+  </button>
+
+
+  <button
+    class="mobile-nav-btn logout-mobile"
+    onclick="logout()"
+  >
+    <i class="fa-solid fa-right-from-bracket"></i>
+    <span>خروج</span>
+  </button>
+
+</nav>
 
 
 <script>
 
-/* ========================================
-   المتغيرات
-======================================== */
+let currentUser=null;
 
-let currentUser = null;
-let currentProfile = null;
+let currentProfile=null;
 
-let selectedFile = null;
-let selectedMediaType = null;
+let selectedFile=null;
+
+let selectedMediaType=null;
 
 
-/* ========================================
-   أدوات
-======================================== */
+/* أدوات */
 
 function escapeHTML(value){
 
@@ -1099,24 +1312,31 @@ function formatDate(date){
 }
 
 
-/* ========================================
-   الأقسام
-======================================== */
+/* الأقسام */
 
 function showSection(id,button=null){
 
   document
     .querySelectorAll(".section")
-    .forEach(x=>x.classList.remove("active"));
+    .forEach(function(section){
+      section.classList.remove("active");
+    });
 
-  document
-    .getElementById(id)
-    .classList.add("active");
+
+  const section=
+    document.getElementById(id);
+
+
+  if(section){
+    section.classList.add("active");
+  }
 
 
   document
     .querySelectorAll(".menu-btn")
-    .forEach(x=>x.classList.remove("active"));
+    .forEach(function(btn){
+      btn.classList.remove("active");
+    });
 
 
   if(button){
@@ -1127,6 +1347,7 @@ function showSection(id,button=null){
   if(id==="friendsSection"){
 
     loadFriendRequests();
+
     loadFriends();
 
   }
@@ -1141,9 +1362,44 @@ function showSection(id,button=null){
 }
 
 
-/* ========================================
-   بدء الصفحة
-======================================== */
+/* أقسام الهاتف */
+
+function showMobileSection(id,button){
+
+  showSection(id);
+
+
+  document
+    .querySelectorAll(".mobile-nav-btn")
+    .forEach(function(btn){
+      btn.classList.remove("active");
+    });
+
+
+  if(button){
+    button.classList.add("active");
+  }
+
+
+  if(id==="friendsSection"){
+
+    loadFriendRequests();
+
+    loadFriends();
+
+  }
+
+
+  if(id==="testsSection"){
+
+    loadTests();
+
+  }
+
+}
+
+
+/* تشغيل الصفحة */
 
 async function initPage(){
 
@@ -1152,15 +1408,21 @@ async function initPage(){
     const {
       data:{session},
       error
-    } = await supabaseClient.auth.getSession();
+    }=
+      await supabaseClient.auth.getSession();
 
 
-    if(error) throw error;
+    if(error){
+
+      throw error;
+
+    }
 
 
     if(!session){
 
       window.location.href="index.html";
+
       return;
 
     }
@@ -1170,6 +1432,7 @@ async function initPage(){
 
 
     await loadProfile();
+
     await loadPosts();
 
   }
@@ -1187,25 +1450,25 @@ async function initPage(){
 }
 
 
-/* ========================================
-   الملف الشخصي
-======================================== */
+/* الملف الشخصي */
 
 async function loadProfile(){
 
   const {
     data,
     error
-  } = await supabaseClient
-    .from("profiles")
-    .select("*")
-    .eq("id",currentUser.id)
-    .maybeSingle();
+  }=
+    await supabaseClient
+      .from("profiles")
+      .select("*")
+      .eq("id",currentUser.id)
+      .maybeSingle();
 
 
   if(error){
 
     console.error(error);
+
     return;
 
   }
@@ -1262,18 +1525,22 @@ async function loadProfile(){
 }
 
 
-/* ========================================
-   الملفات
-======================================== */
+/* الملفات */
 
 function handleFileSelect(input,type){
 
   const file=input.files[0];
 
-  if(!file) return;
+
+  if(!file){
+
+    return;
+
+  }
 
 
   selectedFile=file;
+
   selectedMediaType=type;
 
 
@@ -1295,10 +1562,14 @@ function handleFileSelect(input,type){
 function removeSelectedFile(){
 
   selectedFile=null;
+
   selectedMediaType=null;
 
+
   document.getElementById("imageInput").value="";
+
   document.getElementById("videoInput").value="";
+
 
   document
     .getElementById("selectedFile")
@@ -1307,13 +1578,15 @@ function removeSelectedFile(){
 }
 
 
-/* ========================================
-   رفع صورة / فيديو
-======================================== */
+/* رفع الوسائط */
 
 async function uploadPostMedia(file){
 
-  if(!file) return null;
+  if(!file){
+
+    return null;
+
+  }
 
 
   const ext=
@@ -1336,29 +1609,35 @@ async function uploadPostMedia(file){
 
   const {
     error
-  }=await supabaseClient
-    .storage
-    .from("post-media")
-    .upload(
-      path,
-      file,
-      {
-        cacheControl:"3600",
-        upsert:false,
-        contentType:file.type
-      }
-    );
+  }=
+    await supabaseClient
+      .storage
+      .from("post-media")
+      .upload(
+        path,
+        file,
+        {
+          cacheControl:"3600",
+          upsert:false,
+          contentType:file.type
+        }
+      );
 
 
-  if(error) throw error;
+  if(error){
+
+    throw error;
+
+  }
 
 
   const {
     data
-  }=supabaseClient
-    .storage
-    .from("post-media")
-    .getPublicUrl(path);
+  }=
+    supabaseClient
+      .storage
+      .from("post-media")
+      .getPublicUrl(path);
 
 
   return data.publicUrl;
@@ -1366,9 +1645,7 @@ async function uploadPostMedia(file){
 }
 
 
-/* ========================================
-   نشر
-======================================== */
+/* نشر منشور */
 
 async function publishPost(){
 
@@ -1414,30 +1691,35 @@ async function publishPost(){
 
     const {
       error
-    }=await supabaseClient
-      .from("posts")
-      .insert({
+    }=
+      await supabaseClient
+        .from("posts")
+        .insert({
 
-        author_id:currentUser.id,
+          author_id:currentUser.id,
 
-        teacher_id:
-          currentProfile?.account_type==="teacher"
-          ?currentUser.id
-          :null,
+          teacher_id:
+            currentProfile?.account_type==="teacher"
+            ?currentUser.id
+            :null,
 
-        grade:
-          currentProfile?.grade || null,
+          grade:
+            currentProfile?.grade || null,
 
-        text:text || "",
+          text:text || "",
 
-        media_url:mediaUrl,
+          media_url:mediaUrl,
 
-        media_type:selectedMediaType
+          media_type:selectedMediaType
 
-      });
+        });
 
 
-    if(error) throw error;
+    if(error){
+
+      throw error;
+
+    }
 
 
     document.getElementById("postText").value="";
@@ -1445,7 +1727,6 @@ async function publishPost(){
     removeSelectedFile();
 
     await loadPosts();
-
 
   }
   catch(error){
@@ -1461,6 +1742,7 @@ async function publishPost(){
   finally{
 
     button.disabled=false;
+
     button.textContent="نشر";
 
   }
@@ -1468,9 +1750,165 @@ async function publishPost(){
 }
 
 
-/* ========================================
-   تحميل المنشورات
-======================================== */
+/* المنشور الترحيبي */
+
+function getWelcomePostHTML(){
+
+  return `
+
+    <article class="card post-card welcome-post">
+
+      <div class="post-header">
+
+        <img
+          class="post-author-avatar"
+          src="https://i.postimg.cc/4xRQLtRD/ic-launcher.png"
+          alt="Range Social Developer"
+        >
+
+        <div class="post-author">
+
+          <div class="post-author-name">
+
+            Range Social Developer
+
+            <span class="developer-badge">
+              <i class="fa-solid fa-circle-check"></i>
+              مطور
+            </span>
+
+          </div>
+
+          <div class="post-time">
+            @range_social_developer
+            •
+            منشور ترحيبي
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <div class="post-text">أهلاً بك في Range Social! 👋✨
+
+مرحباً بك في مجتمعك المدرسي الجديد!
+
+Range Social هو مساحتك الخاصة للتواصل، المشاركة، ومتابعة كل ما يخص حياتك الدراسية في مكان واحد بسهولة وأمان.
+
+ما الذي يمكنك فعله هنا؟
+
+📚 المتابعة والتواصل: ابقَ على اطلاع بأحدث الأخبار، الإعلانات، والأنشطة المدرسية.
+
+💬 التفاعل مع زملائك: شارك أفكارك واستفساراتك مع زملائك ومعلميك بسهولة.
+
+⚡ تجربة سريعة وسلسة: استمتع بتطبيق سريع ومصمم خصيصاً ليلبي احتياجاتك اليومية.
+
+نتمنى لك رحلة ممتعة وتجربة دراسية مميزة معنا! 🚀</div>
+
+
+      <div class="post-actions">
+
+        <button
+          class="post-action"
+          type="button"
+          onclick="welcomeMessage('❤️ شكراً لتفاعلك مع Range Social!')"
+        >
+
+          <i class="fa-regular fa-heart"></i>
+
+          إعجاب
+
+        </button>
+
+
+        <button
+          class="post-action"
+          type="button"
+          onclick="welcomeMessage('💬 يمكنك التفاعل مع المنشورات من خلال التعليقات.')"
+        >
+
+          <i class="fa-regular fa-comment"></i>
+
+          تعليق
+
+        </button>
+
+
+        <button
+          class="post-action"
+          type="button"
+          onclick="shareWelcomePost()"
+        >
+
+          <i class="fa-solid fa-share"></i>
+
+          مشاركة
+
+        </button>
+
+      </div>
+
+    </article>
+
+  `;
+
+}
+
+
+function welcomeMessage(message){
+
+  alert(message);
+
+}
+
+
+async function shareWelcomePost(){
+
+  const shareUrl=
+    window.location.origin+
+    window.location.pathname;
+
+
+  try{
+
+    if(navigator.share){
+
+      await navigator.share({
+
+        title:"Range Social",
+
+        text:"أهلاً بك في Range Social! 👋✨",
+
+        url:shareUrl
+
+      });
+
+    }
+    else if(navigator.clipboard){
+
+      await navigator.clipboard.writeText(shareUrl);
+
+      alert("تم نسخ رابط Range Social ✅");
+
+    }
+    else{
+
+      alert("أهلاً بك في Range Social! 🚀");
+
+    }
+
+  }
+  catch(error){
+
+    console.log(error);
+
+  }
+
+}
+
+
+/* تحميل المنشورات */
 
 async function loadPosts(){
 
@@ -1478,11 +1916,8 @@ async function loadPosts(){
     document.getElementById("postsContainer");
 
 
-  container.innerHTML=`
-    <div class="loading">
-      جاري تحميل المنشورات...
-    </div>
-  `;
+  container.innerHTML=
+    getWelcomePostHTML();
 
 
   try{
@@ -1490,26 +1925,27 @@ async function loadPosts(){
     const {
       data:posts,
       error
-    }=await supabaseClient
-      .from("posts")
-      .select("*")
-      .order(
-        "created_at",
-        {ascending:false}
-      )
-      .limit(50);
+    }=
+      await supabaseClient
+        .from("posts")
+        .select("*")
+        .order(
+          "created_at",
+          {
+            ascending:false
+          }
+        )
+        .limit(50);
 
 
-    if(error) throw error;
+    if(error){
+
+      throw error;
+
+    }
 
 
     if(!posts || posts.length===0){
-
-      container.innerHTML=`
-        <div class="card empty">
-          لا توجد منشورات حتى الآن.
-        </div>
-      `;
 
       return;
 
@@ -1519,7 +1955,12 @@ async function loadPosts(){
     const ids=[
       ...new Set(
         posts
-          .map(x=>x.author_id || x.teacher_id)
+          .map(function(post){
+
+            return post.author_id ||
+                   post.teacher_id;
+
+          })
           .filter(Boolean)
       )
     ];
@@ -1532,62 +1973,89 @@ async function loadPosts(){
 
       const {
         data
-      }=await supabaseClient
-        .from("profiles")
-        .select(
-          "id,name,username,account_type"
-        )
-        .in("id",ids);
+      }=
+        await supabaseClient
+          .from("profiles")
+          .select(
+            "id,name,username,account_type"
+          )
+          .in("id",ids);
 
 
-      (data || []).forEach(x=>{
-        profiles[x.id]=x;
+      (data || []).forEach(function(profile){
+
+        profiles[profile.id]=profile;
+
       });
 
     }
 
 
-    /* اللايكات */
+    const postIds=
+      posts.map(function(post){
 
-    const postIds=posts.map(x=>x.id);
+        return post.id;
 
-
-    const {
-      data:likes
-    }=await supabaseClient
-      .from("post_likes")
-      .select("post_id,user_id")
-      .in("post_id",postIds);
+      });
 
 
-    /* التعليقات */
+    let likes=[];
 
-    const {
-      data:comments
-    }=await supabaseClient
-      .from("post_comments")
-      .select("id,post_id,user_id,comment,created_at")
-      .in("post_id",postIds)
-      .order(
-        "created_at",
-        {ascending:true}
-      );
+    let comments=[];
+
+    let shares=[];
 
 
-    /* المشاركات */
+    if(postIds.length){
 
-    const {
-      data:shares
-    }=await supabaseClient
-      .from("post_shares")
-      .select("post_id")
-      .in("post_id",postIds);
+      const likesResult=
+        await supabaseClient
+          .from("post_likes")
+          .select("post_id,user_id")
+          .in("post_id",postIds);
+
+
+      likes=likesResult.data || [];
+
+
+      const commentsResult=
+        await supabaseClient
+          .from("post_comments")
+          .select(
+            "id,post_id,user_id,comment,created_at"
+          )
+          .in("post_id",postIds)
+          .order(
+            "created_at",
+            {
+              ascending:true
+            }
+          );
+
+
+      comments=commentsResult.data || [];
+
+
+      const sharesResult=
+        await supabaseClient
+          .from("post_shares")
+          .select("post_id")
+          .in("post_id",postIds);
+
+
+      shares=sharesResult.data || [];
+
+    }
 
 
     const commentUserIds=[
       ...new Set(
-        (comments || [])
-          .map(x=>x.user_id)
+        comments
+          .map(function(comment){
+
+            return comment.user_id;
+
+          })
       )
     ];
 
@@ -1596,24 +2064,26 @@ async function loadPosts(){
 
       const {
         data:commentProfiles
-      }=await supabaseClient
-        .from("profiles")
-        .select("id,name,username")
-        .in("id",commentUserIds);
+      }=
+        await supabaseClient
+          .from("profiles")
+          .select(
+            "id,name,username"
+          )
+          .in("id",commentUserIds);
 
 
       (commentProfiles || [])
-        .forEach(x=>{
-          profiles[x.id]=x;
+        .forEach(function(profile){
+
+          profiles[profile.id]=profile;
+
         });
 
     }
 
 
-    container.innerHTML="";
-
-
-    posts.forEach(post=>{
+    posts.forEach(function(post){
 
       const authorId=
         post.author_id ||
@@ -1635,25 +2105,35 @@ async function loadPosts(){
 
 
       const postLikes=
-        (likes || [])
-          .filter(x=>x.post_id===post.id);
+        likes.filter(function(like){
+
+          return like.post_id===post.id;
+
+        });
 
 
       const liked=
-        postLikes.some(
-          x=>x.user_id===currentUser.id
-        );
+        postLikes.some(function(like){
+
+          return like.user_id===currentUser.id;
+
+        });
 
 
       const postComments=
-        (comments || [])
-          .filter(x=>x.post_id===post.id);
+        comments.filter(function(comment){
+
+          return comment.post_id===post.id;
+
+        });
 
 
       const shareCount=
-        (shares || [])
-          .filter(x=>x.post_id===post.id)
-          .length;
+        shares.filter(function(share){
+
+          return share.post_id===post.id;
+
+        }).length;
 
 
       let mediaHTML="";
@@ -1665,12 +2145,14 @@ async function loadPosts(){
       ){
 
         mediaHTML=`
+
           <img
             class="post-media"
             src="${escapeHTML(post.media_url)}"
             alt="صورة المنشور"
             loading="lazy"
           >
+
         `;
 
       }
@@ -1682,15 +2164,19 @@ async function loadPosts(){
       ){
 
         mediaHTML=`
+
           <video
             class="post-media"
             controls
             preload="metadata"
           >
+
             <source
               src="${escapeHTML(post.media_url)}"
             >
+
           </video>
+
         `;
 
       }
@@ -1698,33 +2184,39 @@ async function loadPosts(){
 
       const commentsHTML=
         postComments.length
-        ?postComments.map(comment=>{
+        ?
+        postComments.map(function(comment){
 
           const user=
             profiles[comment.user_id] || {};
 
 
-          return`
+          return `
 
             <div class="comment">
 
               <img
                 class="comment-avatar"
                 src="${getAvatar(user.name)}"
+                alt=""
               >
 
               <div class="comment-content">
 
                 <div class="comment-name">
+
                   ${escapeHTML(
                     user.name || "مستخدم"
                   )}
+
                 </div>
 
                 <div class="comment-text">
+
                   ${escapeHTML(
                     comment.comment
                   )}
+
                 </div>
 
               </div>
@@ -1734,10 +2226,13 @@ async function loadPosts(){
           `;
 
         }).join("")
-        :`
+        :
+        `
+
           <div class="empty-comments">
             لا توجد تعليقات حتى الآن.
           </div>
+
         `;
 
 
@@ -1756,18 +2251,25 @@ async function loadPosts(){
           <img
             class="post-author-avatar"
             src="${getAvatar(authorName)}"
+            alt="${escapeHTML(authorName)}"
           >
 
           <div class="post-author">
 
             <div class="post-author-name">
+
               ${escapeHTML(authorName)}
+
             </div>
 
             <div class="post-time">
+
               @${escapeHTML(username)}
+
               •
+
               ${formatDate(post.created_at)}
+
             </div>
 
           </div>
@@ -1777,12 +2279,18 @@ async function loadPosts(){
 
         ${
           post.text
-          ?`
-            <div class="post-text">
-              ${escapeHTML(post.text)}
-            </div>
+          ?
           `
-          :""
+
+            <div class="post-text">
+
+              ${escapeHTML(post.text)}
+
+            </div>
+
+          `
+          :
+          ""
         }
 
 
@@ -1793,14 +2301,14 @@ async function loadPosts(){
 
           <button
             id="likeBtn_${post.id}"
-            class="post-action ${liked?"liked":""}"
+            class="post-action ${liked ? "liked" : ""}"
             onclick="toggleLike(${post.id})"
           >
 
             <i class="${
               liked
-              ?"fa-solid fa-heart"
-              :"fa-regular fa-heart"
+              ? "fa-solid fa-heart"
+              : "fa-regular fa-heart"
             }"></i>
 
             إعجاب
@@ -1852,7 +2360,9 @@ async function loadPosts(){
         >
 
           <div class="comment-list">
+
             ${commentsHTML}
+
           </div>
 
 
@@ -1870,7 +2380,9 @@ async function loadPosts(){
               class="comment-send"
               onclick="addComment(${post.id})"
             >
+
               <i class="fa-solid fa-paper-plane"></i>
+
             </button>
 
           </div>
@@ -1884,37 +2396,41 @@ async function loadPosts(){
 
     });
 
-
   }
   catch(error){
 
     console.error(error);
 
 
-    container.innerHTML=`
+    const errorBox=
+      document.createElement("div");
 
-      <div class="card empty">
 
-        حدث خطأ أثناء تحميل المنشورات.
+    errorBox.className=
+      "card empty";
 
-        <br><br>
 
-        <small>
-          ${escapeHTML(error.message)}
-        </small>
+    errorBox.innerHTML=`
 
-      </div>
+      حدث خطأ أثناء تحميل المنشورات.
+
+      <br><br>
+
+      <small>
+        ${escapeHTML(error.message)}
+      </small>
 
     `;
+
+
+    container.appendChild(errorBox);
 
   }
 
 }
 
 
-/* ========================================
-   Like
-======================================== */
+/* الإعجاب */
 
 async function toggleLike(postId){
 
@@ -1923,46 +2439,62 @@ async function toggleLike(postId){
     const {
       data:existing,
       error:checkError
-    }=await supabaseClient
-      .from("post_likes")
-      .select("id")
-      .eq("post_id",postId)
-      .eq("user_id",currentUser.id)
-      .maybeSingle();
+    }=
+      await supabaseClient
+        .from("post_likes")
+        .select("id")
+        .eq("post_id",postId)
+        .eq("user_id",currentUser.id)
+        .maybeSingle();
 
 
-    if(checkError) throw checkError;
+    if(checkError){
+
+      throw checkError;
+
+    }
 
 
     if(existing){
 
       const {
         error
-      }=await supabaseClient
-        .from("post_likes")
-        .delete()
-        .eq("id",existing.id)
-        .eq("user_id",currentUser.id);
+      }=
+        await supabaseClient
+          .from("post_likes")
+          .delete()
+          .eq("id",existing.id)
+          .eq("user_id",currentUser.id);
 
 
-      if(error) throw error;
+      if(error){
+
+        throw error;
+
+      }
 
     }
     else{
 
       const {
         error
-      }=await supabaseClient
-        .from("post_likes")
-        .insert({
+      }=
+        await supabaseClient
+          .from("post_likes")
+          .insert({
 
-          post_id:postId,
-          user_id:currentUser.id
+            post_id:postId,
 
-        });
+            user_id:currentUser.id
+
+          });
 
 
-      if(error) throw error;
+      if(error){
+
+        throw error;
+
+      }
 
     }
 
@@ -1984,9 +2516,7 @@ async function toggleLike(postId){
 }
 
 
-/* ========================================
-   التعليقات
-======================================== */
+/* التعليقات */
 
 function toggleComments(postId){
 
@@ -2029,7 +2559,11 @@ async function addComment(postId){
     );
 
 
-  if(!input) return;
+  if(!input){
+
+    return;
+
+  }
 
 
   const comment=
@@ -2047,20 +2581,25 @@ async function addComment(postId){
 
     const {
       error
-    }=await supabaseClient
-      .from("post_comments")
-      .insert({
+    }=
+      await supabaseClient
+        .from("post_comments")
+        .insert({
 
-        post_id:postId,
+          post_id:postId,
 
-        user_id:currentUser.id,
+          user_id:currentUser.id,
 
-        comment:comment
+          comment:comment
 
-      });
+        });
 
 
-    if(error) throw error;
+    if(error){
+
+      throw error;
+
+    }
 
 
     input.value="";
@@ -2069,12 +2608,13 @@ async function addComment(postId){
     await loadPosts();
 
 
-    setTimeout(()=>{
+    setTimeout(function(){
 
       const box=
         document.getElementById(
           "comments_"+postId
         );
+
 
       if(box){
 
@@ -2099,9 +2639,7 @@ async function addComment(postId){
 }
 
 
-/* ========================================
-   مشاركة
-======================================== */
+/* المشاركة */
 
 async function sharePost(postId){
 
@@ -2109,18 +2647,23 @@ async function sharePost(postId){
 
     const {
       error
-    }=await supabaseClient
-      .from("post_shares")
-      .insert({
+    }=
+      await supabaseClient
+        .from("post_shares")
+        .insert({
 
-        post_id:postId,
+          post_id:postId,
 
-        user_id:currentUser.id
+          user_id:currentUser.id
 
-      });
+        });
 
 
-    if(error) throw error;
+    if(error){
+
+      throw error;
+
+    }
 
 
     const shareUrl=
@@ -2129,24 +2672,20 @@ async function sharePost(postId){
       "?post="+postId;
 
 
-    if(
-      navigator.share
-    ){
+    if(navigator.share){
 
       await navigator.share({
 
-        title:"Rang Social",
+        title:"Range Social",
 
-        text:"شاهد هذا المنشور على Rang Social",
+        text:"شاهد هذا المنشور على Range Social",
 
         url:shareUrl
 
       });
 
     }
-    else if(
-      navigator.clipboard
-    ){
+    else if(navigator.clipboard){
 
       await navigator.clipboard.writeText(
         shareUrl
@@ -2183,18 +2722,23 @@ async function sharePost(postId){
 }
 
 
-/* ========================================
-   الأصدقاء
-======================================== */
+/* البحث عن الأصدقاء */
 
 function escapeLike(value){
 
   return String(value)
+
     .replace(/\\/g,"\\\\")
+
     .replace(/%/g,"\\%")
+
     .replace(/_/g,"\\_")
+
     .replace(/,/g,"")
-    .replace(/\(/g,"")     .replace(/\)/g,"");
+
+    .replace(/\(/g,"")
+
+    .replace(/\)/g,"");
 
 }
 
@@ -2217,9 +2761,11 @@ async function searchFriends(){
   if(!value){
 
     box.innerHTML=`
+
       <div class="empty">
         اكتب اسم المستخدم أو الاسم.
       </div>
+
     `;
 
     return;
@@ -2228,9 +2774,11 @@ async function searchFriends(){
 
 
   box.innerHTML=`
+
     <div class="loading">
       جاري البحث...
     </div>
+
   `;
 
 
@@ -2243,27 +2791,34 @@ async function searchFriends(){
     const {
       data,
       error
-    }=await supabaseClient
-      .from("profiles")
-      .select(
-        "id,name,username,account_type,grade"
-      )
-      .or(
-        `username.ilike.%${safe}%,name.ilike.%${safe}%`
-      )
-      .neq("id",currentUser.id)
-      .limit(20);
+    }=
+      await supabaseClient
+        .from("profiles")
+        .select(
+          "id,name,username,account_type,grade"
+        )
+        .or(
+          `username.ilike.%${safe}%,name.ilike.%${safe}%`
+        )
+        .neq("id",currentUser.id)
+        .limit(20);
 
 
-    if(error) throw error;
+    if(error){
+
+      throw error;
+
+    }
 
 
     if(!data || !data.length){
 
       box.innerHTML=`
+
         <div class="empty">
           لم يتم العثور على مستخدم.
         </div>
+
       `;
 
       return;
@@ -2274,7 +2829,7 @@ async function searchFriends(){
     box.innerHTML="";
 
 
-    data.forEach(user=>{
+    data.forEach(function(user){
 
       const item=
         document.createElement("div");
@@ -2289,6 +2844,7 @@ async function searchFriends(){
         <img
           class="friend-avatar"
           src="${getAvatar(user.name)}"
+          alt=""
         >
 
         <div class="friend-info">
@@ -2302,6 +2858,7 @@ async function searchFriends(){
           </small>
 
         </div>
+
 
         <button
           class="small-btn accept-btn"
@@ -2317,20 +2874,23 @@ async function searchFriends(){
 
     });
 
-
   }
   catch(error){
 
     box.innerHTML=`
+
       <div class="empty">
         ${escapeHTML(error.message)}
       </div>
+
     `;
 
   }
 
 }
 
+
+/* طلب صداقة */
 
 async function sendFriendRequest(receiverId){
 
@@ -2339,25 +2899,37 @@ async function sendFriendRequest(receiverId){
     const {
       data:existing,
       error
-    }=await supabaseClient
-      .from("friend_requests")
-      .select("id,status")
-      .or(
-        `and(sender_id.eq.${currentUser.id},receiver_id.eq.${receiverId}),and(sender_id.eq.${receiverId},receiver_id.eq.${currentUser.id})`
-      )
-      .limit(1);
+    }=
+      await supabaseClient
+        .from("friend_requests")
+        .select("id,status")
+        .or(
+          `and(sender_id.eq.${currentUser.id},receiver_id.eq.${receiverId}),and(sender_id.eq.${receiverId},receiver_id.eq.${currentUser.id})`
+        )
+        .limit(1);
 
 
-    if(error) throw error;
+    if(error){
+
+      throw error;
+
+    }
 
 
     if(existing?.length){
 
-      if(existing[0].status==="accepted")
+      if(
+        existing[0].status==="accepted"
+      ){
+
         alert("أنتم أصدقاء بالفعل.");
 
-      else
+      }
+      else{
+
         alert("يوجد طلب صداقة بالفعل.");
+
+      }
 
       return;
 
@@ -2366,23 +2938,30 @@ async function sendFriendRequest(receiverId){
 
     const {
       error:insertError
-    }=await supabaseClient
-      .from("friend_requests")
-      .insert({
+    }=
+      await supabaseClient
+        .from("friend_requests")
+        .insert({
 
-        sender_id:currentUser.id,
+          sender_id:currentUser.id,
 
-        receiver_id:receiverId,
+          receiver_id:receiverId,
 
-        status:"pending"
+          status:"pending"
 
-      });
-
-
-    if(insertError) throw insertError;
+        });
 
 
-    alert("تم إرسال طلب الصداقة ✅");
+    if(insertError){
+
+      throw insertError;
+
+    }
+
+
+    alert(
+      "تم إرسال طلب الصداقة ✅"
+    );
 
   }
   catch(error){
@@ -2397,9 +2976,7 @@ async function sendFriendRequest(receiverId){
 }
 
 
-/* ========================================
-   طلبات الصداقة
-======================================== */
+/* طلبات الصداقة */
 
 async function loadFriendRequests(){
 
@@ -2414,26 +2991,35 @@ async function loadFriendRequests(){
     const {
       data,
       error
-    }=await supabaseClient
-      .from("friend_requests")
-      .select("*")
-      .eq("receiver_id",currentUser.id)
-      .eq("status","pending")
-      .order(
-        "created_at",
-        {ascending:false}
-      );
+    }=
+      await supabaseClient
+        .from("friend_requests")
+        .select("*")
+        .eq("receiver_id",currentUser.id)
+        .eq("status","pending")
+        .order(
+          "created_at",
+          {
+            ascending:false
+          }
+        );
 
 
-    if(error) throw error;
+    if(error){
+
+      throw error;
+
+    }
 
 
     if(!data?.length){
 
       box.innerHTML=`
+
         <div class="empty">
           لا توجد طلبات صداقة.
         </div>
+
       `;
 
       return;
@@ -2441,28 +3027,39 @@ async function loadFriendRequests(){
     }
 
 
-    const ids=data.map(x=>x.sender_id);
+    const ids=
+      data.map(function(request){
+
+        return request.sender_id;
+
+      });
 
 
     const {
       data:profiles
-    }=await supabaseClient
-      .from("profiles")
-      .select("id,name,username")
-      .in("id",ids);
+    }=
+      await supabaseClient
+        .from("profiles")
+        .select(
+          "id,name,username"
+        )
+        .in("id",ids);
 
 
     const map={};
 
-    (profiles || []).forEach(x=>{
-      map[x.id]=x;
+
+    (profiles || []).forEach(function(profile){
+
+      map[profile.id]=profile;
+
     });
 
 
     box.innerHTML="";
 
 
-    data.forEach(request=>{
+    data.forEach(function(request){
 
       const user=
         map[request.sender_id] || {};
@@ -2481,6 +3078,7 @@ async function loadFriendRequests(){
         <img
           class="friend-avatar"
           src="${getAvatar(user.name)}"
+          alt=""
         >
 
         <div class="friend-info">
@@ -2495,12 +3093,14 @@ async function loadFriendRequests(){
 
         </div>
 
+
         <button
           class="small-btn accept-btn"
           onclick="updateFriendRequest(${request.id},'accepted')"
         >
           قبول
         </button>
+
 
         <button
           class="small-btn reject-btn"
@@ -2516,14 +3116,15 @@ async function loadFriendRequests(){
 
     });
 
-
   }
   catch(error){
 
     box.innerHTML=`
+
       <div class="empty">
         ${escapeHTML(error.message)}
       </div>
+
     `;
 
   }
@@ -2531,23 +3132,33 @@ async function loadFriendRequests(){
 }
 
 
+/* تحديث طلب الصداقة */
+
 async function updateFriendRequest(id,status){
 
   try{
 
     const {
       error
-    }=await supabaseClient
-      .from("friend_requests")
-      .update({status})
-      .eq("id",id)
-      .eq("receiver_id",currentUser.id);
+    }=
+      await supabaseClient
+        .from("friend_requests")
+        .update({
+          status:status
+        })
+        .eq("id",id)
+        .eq("receiver_id",currentUser.id);
 
 
-    if(error) throw error;
+    if(error){
+
+      throw error;
+
+    }
 
 
     await loadFriendRequests();
+
     await loadFriends();
 
   }
@@ -2560,9 +3171,7 @@ async function updateFriendRequest(id,status){
 }
 
 
-/* ========================================
-   الأصدقاء
-======================================== */
+/* الأصدقاء */
 
 async function loadFriends(){
 
@@ -2577,24 +3186,31 @@ async function loadFriends(){
     const {
       data,
       error
-    }=await supabaseClient
-      .from("friend_requests")
-      .select("*")
-      .eq("status","accepted")
-      .or(
-        `sender_id.eq.${currentUser.id},receiver_id.eq.${currentUser.id}`
-      );
+    }=
+      await supabaseClient
+        .from("friend_requests")
+        .select("*")
+        .eq("status","accepted")
+        .or(
+          `sender_id.eq.${currentUser.id},receiver_id.eq.${currentUser.id}`
+        );
 
 
-    if(error) throw error;
+    if(error){
+
+      throw error;
+
+    }
 
 
     if(!data?.length){
 
       box.innerHTML=`
+
         <div class="empty">
           لم تضف أي أصدقاء حتى الآن.
         </div>
+
       `;
 
       return;
@@ -2602,27 +3218,31 @@ async function loadFriends(){
     }
 
 
-    const ids=data.map(x=>
-      x.sender_id===currentUser.id
-      ?x.receiver_id
-      :x.sender_id
-    );
+    const ids=
+      data.map(function(friend){
+
+        return friend.sender_id===currentUser.id
+          ?friend.receiver_id
+          :friend.sender_id;
+
+      });
 
 
     const {
       data:profiles
-    }=await supabaseClient
-      .from("profiles")
-      .select(
-        "id,name,username,account_type"
-      )
-      .in("id",ids);
+    }=
+      await supabaseClient
+        .from("profiles")
+        .select(
+          "id,name,username,account_type"
+        )
+        .in("id",ids);
 
 
     box.innerHTML="";
 
 
-    (profiles || []).forEach(user=>{
+    (profiles || []).forEach(function(user){
 
       const item=
         document.createElement("div");
@@ -2637,6 +3257,7 @@ async function loadFriends(){
         <img
           class="friend-avatar"
           src="${getAvatar(user.name)}"
+          alt=""
         >
 
         <div class="friend-info">
@@ -2651,13 +3272,17 @@ async function loadFriends(){
 
         </div>
 
+
         <button
           class="small-btn"
           style="background:#f0edff;color:#6c5ce7;"
           onclick="window.location.href='messages.html'"
         >
+
           <i class="fa-regular fa-comment"></i>
+
           مراسلة
+
         </button>
 
       `;
@@ -2667,14 +3292,15 @@ async function loadFriends(){
 
     });
 
-
   }
   catch(error){
 
     box.innerHTML=`
+
       <div class="empty">
         ${escapeHTML(error.message)}
       </div>
+
     `;
 
   }
@@ -2682,9 +3308,7 @@ async function loadFriends(){
 }
 
 
-/* ========================================
-   الاختبارات
-======================================== */
+/* الاختبارات */
 
 async function loadTests(){
 
@@ -2695,9 +3319,11 @@ async function loadTests(){
 
 
   box.innerHTML=`
+
     <div class="loading">
       جاري تحميل الاختبارات...
     </div>
+
   `;
 
 
@@ -2713,16 +3339,19 @@ async function loadTests(){
         .select("*")
         .order(
           "created_at",
-          {ascending:false}
+          {
+            ascending:false
+          }
         );
 
 
     if(grade){
 
-      query=query.eq(
-        "grade",
-        grade
-      );
+      query=
+        query.eq(
+          "grade",
+          grade
+        );
 
     }
 
@@ -2730,18 +3359,25 @@ async function loadTests(){
     const {
       data,
       error
-    }=await query;
+    }=
+      await query;
 
 
-    if(error) throw error;
+    if(error){
+
+      throw error;
+
+    }
 
 
     if(!data?.length){
 
       box.innerHTML=`
+
         <div class="card empty">
           لا توجد اختبارات متاحة حالياً.
         </div>
+
       `;
 
       return;
@@ -2752,59 +3388,78 @@ async function loadTests(){
     box.innerHTML="";
 
 
-    data.forEach(test=>{
+    data.forEach(function(test){
 
-      let questions=test.questions;
+      let questions=
+        test.questions;
 
 
       if(typeof questions==="string"){
 
         try{
-          questions=JSON.parse(questions);
+
+          questions=
+            JSON.parse(questions);
+
         }
-        catch{
+        catch(error){
+
           questions=[];
+
         }
 
       }
 
 
-      if(!Array.isArray(questions))
+      if(!Array.isArray(questions)){
+
         questions=[];
+
+      }
 
 
       let html="";
 
 
-      questions.forEach((q,index)=>{
+      questions.forEach(function(q,index){
 
         html+=`
 
           <div class="question">
 
             <div class="question-title">
+
               ${index+1}.
+
               ${escapeHTML(q.question || "")}
+
             </div>
+
 
             ${
               Array.isArray(q.options)
-              ?q.options.map((option,i)=>`
+              ?
+              q.options.map(function(option,i){
 
-                <label class="option">
+                return `
 
-                  <input
-                    type="radio"
-                    name="test_${test.id}_${index}"
-                    value="${i}"
-                  >
+                  <label class="option">
 
-                  ${escapeHTML(option)}
+                    <input
+                      type="radio"
+                      name="test_${test.id}_${index}"
+                      value="${i}"
+                    >
 
-                </label>
+                    ${escapeHTML(option)}
 
-              `).join("")
-              :""
+                  </label>
+
+                `;
+
+              }).join("")
+              :
+              ""
             }
 
           </div>
@@ -2828,12 +3483,20 @@ async function loadTests(){
           ${escapeHTML(test.title)}
         </h3>
 
+
         <div class="test-meta">
+
           المادة:
-          ${escapeHTML(test.subject || "غير محددة")}
+
+          ${escapeHTML(
+            test.subject || "غير محددة"
+          )}
+
         </div>
 
+
         ${html}
+
 
         <button
           class="primary-btn"
@@ -2842,6 +3505,7 @@ async function loadTests(){
         >
           إرسال الإجابات
         </button>
+
 
         <div
           id="testResult_${test.id}"
@@ -2854,20 +3518,25 @@ async function loadTests(){
 
     });
 
-
   }
   catch(error){
 
     box.innerHTML=`
+
       <div class="card empty">
+
         ${escapeHTML(error.message)}
+
       </div>
+
     `;
 
   }
 
 }
 
+
+/* إرسال الاختبار */
 
 async function submitTest(testId){
 
@@ -2876,27 +3545,37 @@ async function submitTest(testId){
     const {
       data:test,
       error
-    }=await supabaseClient
-      .from("tests")
-      .select("*")
-      .eq("id",testId)
-      .single();
+    }=
+      await supabaseClient
+        .from("tests")
+        .select("*")
+        .eq("id",testId)
+        .single();
 
 
-    if(error) throw error;
+    if(error){
+
+      throw error;
+
+    }
 
 
-    let questions=test.questions;
+    let questions=
+      test.questions;
 
 
-    if(typeof questions==="string")
-      questions=JSON.parse(questions);
+    if(typeof questions==="string"){
+
+      questions=
+        JSON.parse(questions);
+
+    }
 
 
     let score=0;
 
 
-    questions.forEach((q,index)=>{
+    questions.forEach(function(q,index){
 
       const selected=
         document.querySelector(
@@ -2919,33 +3598,38 @@ async function submitTest(testId){
 
     const {
       error:resultError
-    }=await supabaseClient
-      .from("results")
-      .insert({
+    }=
+      await supabaseClient
+        .from("results")
+        .insert({
 
-        test_id:test.id,
+          test_id:test.id,
 
-        teacher_id:test.teacher_id,
+          teacher_id:test.teacher_id,
 
-        student_id:currentUser.id,
+          student_id:currentUser.id,
 
-        student_name:
-          currentProfile?.name ||
-          "مستخدم Rang",
+          student_name:
+            currentProfile?.name ||
+            "مستخدم Rang",
 
-        grade:
-          currentProfile?.grade || null,
+          grade:
+            currentProfile?.grade || null,
 
-        test_title:test.title,
+          test_title:test.title,
 
-        score:score,
+          score:score,
 
-        total:questions.length
+          total:questions.length
 
-      });
+        });
 
 
-    if(resultError) throw resultError;
+    if(resultError){
+
+      throw resultError;
+
+    }
 
 
     document.getElementById(
@@ -2953,12 +3637,17 @@ async function submitTest(testId){
     ).innerHTML=`
 
       <div class="message success">
+
         تم إرسال الاختبار ✅
+
         <br>
+
         نتيجتك:
+
         <strong>
           ${score} / ${questions.length}
         </strong>
+
       </div>
 
     `;
@@ -2976,22 +3665,25 @@ async function submitTest(testId){
 }
 
 
-/* ========================================
-   تسجيل الخروج
-======================================== */
+/* تسجيل الخروج */
 
 async function logout(){
 
-  await supabaseClient.auth.signOut();
+  try{
 
-  window.location.href="index.html";
+    await supabaseClient.auth.signOut();
+
+  }
+  finally{
+
+    window.location.href="index.html";
+
+  }
 
 }
 
 
-/* ========================================
-   تحديث
-======================================== */
+/* تحديث كل البيانات */
 
 async function loadAllData(){
 
@@ -3006,13 +3698,15 @@ async function loadAllData(){
 }
 
 
-/* ========================================
-   البحث العلوي
-======================================== */
+/* البحث العلوي */
 
-document
-  .getElementById("topSearch")
-  .addEventListener(
+const topSearch=
+  document.getElementById("topSearch");
+
+
+if(topSearch){
+
+  topSearch.addEventListener(
     "keydown",
     function(event){
 
@@ -3045,14 +3739,15 @@ document
     }
   );
 
+}
 
-/* ========================================
-   تشغيل
-======================================== */
+
+/* تشغيل */
 
 initPage();
 
 </script>
 
 </body>
+
 </html>
