@@ -2,459 +2,525 @@
 <html lang="ar" dir="rtl">
 
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>المراسلة - Rang Social</title>
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0"
+>
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<title>المراسلة | Rang Social</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+<link
+  rel="preconnect"
+  href="https://fonts.googleapis.com"
+>
 
-<link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link
+  rel="preconnect"
+  href="https://fonts.gstatic.com"
+  crossorigin
+>
+
+<link
+  href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap"
+  rel="stylesheet"
+>
+
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <script src="config.js"></script>
 
 <style>
 
 :root{
-    --primary:#6c5ce7;
-    --primary-hover:#5b4bc4;
-    --bg:#f4f6f9;
-    --card:#ffffff;
-    --text:#2d3436;
-    --muted:#636e72;
-    --border:#e2e8f0;
-    --message:#6c5ce7;
-    --received:#ffffff;
+  --primary:#6c5ce7;
+  --primary-hover:#5b4bc4;
+  --bg:#f4f6f9;
+  --text:#2d3436;
+  --muted:#636e72;
+  --card:#ffffff;
+  --border:#e2e8f0;
+  --sent:#6c5ce7;
+  --received:#f0f1f5;
+  --shadow:0 4px 15px rgba(0,0,0,.05);
 }
 
 *{
-    box-sizing:border-box;
-    margin:0;
-    padding:0;
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
 }
 
 body{
-    font-family:"Tajawal",sans-serif;
-    background:var(--bg);
-    color:var(--text);
-    height:100vh;
-    overflow:hidden;
+  font-family:"Tajawal",sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  min-height:100vh;
 }
 
 button,
 input{
-    font-family:inherit;
+  font-family:inherit;
 }
 
 button{
-    cursor:pointer;
+  cursor:pointer;
 }
 
-/* =========================
-   الشريط العلوي
-========================= */
-
 .navbar{
-    height:65px;
-    background:#fff;
-    border-bottom:1px solid var(--border);
-    box-shadow:0 3px 12px rgba(0,0,0,.04);
-    display:flex;
-    align-items:center;
+  height:65px;
+  background:#fff;
+  border-bottom:1px solid var(--border);
+  box-shadow:var(--shadow);
 }
 
 .nav-container{
-    width:100%;
-    max-width:1400px;
-    margin:auto;
-    padding:0 20px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
+  max-width:1400px;
+  height:100%;
+  margin:auto;
+  padding:0 20px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
 }
 
 .logo{
-    text-decoration:none;
-    color:var(--primary);
-    font-size:25px;
-    font-weight:700;
+  text-decoration:none;
+  color:var(--primary);
+  font-size:25px;
+  font-weight:700;
+  display:flex;
+  align-items:center;
+  gap:8px;
 }
 
 .back-btn{
-    width:42px;
-    height:42px;
-    border:none;
-    border-radius:50%;
-    background:#f4f4fa;
-    color:var(--text);
-    font-size:18px;
+  width:42px;
+  height:42px;
+  border:none;
+  border-radius:50%;
+  background:#f4f4fa;
+  color:var(--text);
+  font-size:17px;
 }
 
 .back-btn:hover{
-    background:#eeeaff;
-    color:var(--primary);
+  color:var(--primary);
 }
 
-/* =========================
-   الصفحة
-========================= */
-
 .page{
-    width:100%;
-    height:calc(100vh - 65px);
-    max-width:1400px;
-    margin:auto;
-    padding:18px;
+  max-width:1400px;
+  margin:25px auto;
+  padding:0 15px;
 }
 
 .messages-layout{
-    height:100%;
-    display:flex;
-    gap:18px;
+  display:grid;
+  grid-template-columns:320px minmax(0,1fr);
+  gap:20px;
+  height:calc(100vh - 115px);
+  min-height:550px;
 }
 
-/* =========================
-   قائمة المحادثات
-========================= */
-
-.conversations{
-    width:340px;
-    background:var(--card);
-    border:1px solid var(--border);
-    border-radius:18px;
-    overflow:hidden;
-    box-shadow:0 4px 15px rgba(0,0,0,.05);
-    display:flex;
-    flex-direction:column;
+.card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:18px;
+  box-shadow:var(--shadow);
+  overflow:hidden;
 }
 
-.conversations-header{
-    padding:18px;
-    border-bottom:1px solid var(--border);
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
+.users-card{
+  display:flex;
+  flex-direction:column;
+  min-width:0;
 }
 
-.conversations-header h2{
-    font-size:20px;
+.users-header{
+  padding:20px;
+  border-bottom:1px solid var(--border);
 }
 
-.conversations-header i{
-    margin-left:5px;
+.users-title{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  font-size:22px;
+  font-weight:700;
 }
 
-.conversation-list{
-    flex:1;
-    overflow-y:auto;
+.users-search{
+  margin-top:15px;
+  position:relative;
 }
 
-.conversation{
-    width:100%;
-    border:none;
-    background:#fff;
-    padding:14px;
-    display:flex;
-    align-items:center;
-    gap:12px;
-    text-align:right;
-    border-bottom:1px solid #f0f0f0;
+.users-search i{
+  position:absolute;
+  right:14px;
+  top:50%;
+  transform:translateY(-50%);
+  color:var(--muted);
 }
 
-.conversation:hover{
-    background:#faf9ff;
+.users-search input{
+  width:100%;
+  border:1px solid var(--border);
+  background:#f7f7fa;
+  border-radius:22px;
+  padding:11px 42px 11px 14px;
+  outline:none;
 }
 
-.conversation.active{
-    background:#f0edff;
+.users-search input:focus{
+  border-color:var(--primary);
+  background:#fff;
 }
 
-.avatar{
-    width:50px;
-    height:50px;
-    border-radius:50%;
-    object-fit:cover;
-    flex-shrink:0;
+.users-list{
+  flex:1;
+  overflow-y:auto;
 }
 
-.conversation-info{
-    min-width:0;
-    flex:1;
+.user-item{
+  width:100%;
+  border:none;
+  background:#fff;
+  border-bottom:1px solid #f0f0f0;
+  padding:14px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  text-align:right;
 }
 
-.conversation-name{
-    font-weight:700;
-    margin-bottom:4px;
+.user-item:hover{
+  background:#f8f7ff;
 }
 
-.conversation-username{
-    color:var(--muted);
-    font-size:13px;
+.user-item.active{
+  background:#f0edff;
 }
 
-/* =========================
-   المحادثة
-========================= */
+.user-avatar{
+  width:52px;
+  height:52px;
+  border-radius:50%;
+  object-fit:cover;
+  flex-shrink:0;
+}
 
-.chat{
-    flex:1;
-    min-width:0;
-    background:#fff;
-    border:1px solid var(--border);
-    border-radius:18px;
-    overflow:hidden;
-    box-shadow:0 4px 15px rgba(0,0,0,.05);
-    display:flex;
-    flex-direction:column;
+.user-info{
+  flex:1;
+  min-width:0;
+}
+
+.user-name{
+  font-weight:700;
+  font-size:15px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+.user-username{
+  color:var(--muted);
+  font-size:13px;
+  margin-top:3px;
+}
+
+.empty{
+  padding:30px 20px;
+  text-align:center;
+  color:var(--muted);
+}
+
+.loading{
+  padding:30px 20px;
+  text-align:center;
+  color:var(--muted);
+}
+
+.chat-card{
+  display:flex;
+  flex-direction:column;
+  min-width:0;
+  min-height:0;
 }
 
 .chat-header{
-    height:82px;
-    padding:14px 20px;
-    border-bottom:1px solid var(--border);
-    display:flex;
-    align-items:center;
-    gap:12px;
+  height:82px;
+  padding:12px 18px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  border-bottom:1px solid var(--border);
+  flex-shrink:0;
+}
+
+.chat-user-avatar{
+  width:54px;
+  height:54px;
+  border-radius:50%;
+  object-fit:cover;
 }
 
 .chat-user-info{
-    min-width:0;
+  min-width:0;
 }
 
 .chat-user-name{
-    font-weight:700;
-    font-size:17px;
+  font-size:17px;
+  font-weight:700;
 }
 
-.chat-user-status{
-    color:var(--muted);
-    font-size:13px;
-    margin-top:3px;
+.chat-user-username{
+  color:var(--muted);
+  font-size:13px;
+  margin-top:3px;
 }
 
-/* =========================
-   الرسائل
-========================= */
-
-.messages{
-    flex:1;
-    overflow-y:auto;
-    padding:22px;
-    background:#f7f8fa;
-
-    display:flex;
-    flex-direction:column;
-    gap:7px;
+.chat-body{
+  flex:1;
+  min-height:0;
+  overflow-y:auto;
+  padding:22px;
+  background:#f8f9fb;
+  display:flex;
+  flex-direction:column;
+  gap:8px;
 }
 
-.empty-chat{
-    margin:auto;
-    text-align:center;
-    color:var(--muted);
+.chat-empty{
+  margin:auto;
+  text-align:center;
+  color:var(--muted);
 }
 
-.empty-chat i{
-    font-size:42px;
-    margin-bottom:12px;
-    color:#b9b2ed;
+.chat-empty i{
+  font-size:45px;
+  color:#c8c5dd;
+  margin-bottom:12px;
 }
-
-/* أهم جزء: حجم الرسالة مثل واتساب */
 
 .message-row{
-    width:100%;
-    display:flex;
+  width:100%;
+  display:flex;
 }
 
 .message-row.sent{
-    justify-content:flex-start;
+  justify-content:flex-start;
 }
 
 .message-row.received{
-    justify-content:flex-end;
+  justify-content:flex-end;
 }
 
 .message-bubble{
-    max-width:min(65%,500px);
-    width:fit-content;
-
-    padding:9px 13px 7px;
-
-    border-radius:16px;
-
-    line-height:1.6;
-    font-size:15px;
-
-    word-break:break-word;
-    white-space:pre-wrap;
-
-    box-shadow:0 1px 2px rgba(0,0,0,.08);
+  width:fit-content;
+  max-width:min(65%,500px);
+  padding:9px 13px 7px;
+  border-radius:15px;
+  word-break:break-word;
+  overflow-wrap:anywhere;
+  line-height:1.55;
+  font-size:15px;
 }
 
 .message-row.sent .message-bubble{
-    background:var(--message);
-    color:#fff;
-
-    border-bottom-right-radius:5px;
+  background:var(--sent);
+  color:#fff;
+  border-bottom-right-radius:5px;
 }
 
 .message-row.received .message-bubble{
-    background:var(--received);
-    color:var(--text);
+  background:#fff;
+  color:var(--text);
+  border:1px solid #e5e6eb;
+  border-bottom-left-radius:5px;
+}
 
-    border:1px solid #e9e9e9;
-
-    border-bottom-left-radius:5px;
+.message-text{
+  white-space:pre-wrap;
 }
 
 .message-time{
-    display:block;
-    margin-top:3px;
-    font-size:10px;
-    opacity:.65;
-    text-align:left;
+  font-size:10px;
+  margin-top:4px;
+  opacity:.7;
+  text-align:left;
+  direction:rtl;
 }
 
-/* =========================
-   إرسال الرسالة
-========================= */
-
-.message-form{
-    min-height:72px;
-    padding:10px 14px;
-
-    border-top:1px solid var(--border);
-
-    display:flex;
-    align-items:center;
-    gap:10px;
-
-    background:#fff;
+.chat-footer{
+  padding:12px;
+  border-top:1px solid var(--border);
+  background:#fff;
+  display:flex;
+  align-items:center;
+  gap:9px;
+  flex-shrink:0;
 }
 
 .message-input{
-    flex:1;
-
-    border:1px solid #aaa4d8;
-
-    border-radius:25px;
-
-    padding:12px 17px;
-
-    outline:none;
-
-    font-size:15px;
-
-    background:#fff;
-
-    min-width:0;
+  flex:1;
+  min-width:0;
+  border:1px solid #9d96c9;
+  border-radius:25px;
+  padding:12px 16px;
+  outline:none;
+  background:#fff;
+  font-size:15px;
 }
 
 .message-input:focus{
-    border-color:var(--primary);
+  border-color:var(--primary);
 }
 
 .send-btn{
-    width:48px;
-    height:48px;
-
-    border:none;
-    border-radius:50%;
-
-    background:var(--primary);
-    color:#fff;
-
-    font-size:17px;
-
-    flex-shrink:0;
+  width:48px;
+  height:48px;
+  flex-shrink:0;
+  border:none;
+  border-radius:50%;
+  background:var(--primary);
+  color:#fff;
+  font-size:18px;
 }
 
 .send-btn:hover{
-    background:var(--primary-hover);
+  background:var(--primary-hover);
 }
 
 .send-btn:disabled{
-    opacity:.6;
+  opacity:.6;
+  cursor:not-allowed;
 }
 
-/* =========================
-   تحميل
-========================= */
+.no-chat{
+  flex:1;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  gap:10px;
+  color:var(--muted);
+  background:#f8f9fb;
+}
 
-.loading{
-    margin:auto;
-    color:var(--muted);
+.no-chat i{
+  font-size:55px;
+  color:#c8c5dd;
+}
+
+.no-chat h3{
+  color:var(--text);
+}
+
+@media(max-width:800px){
+
+  .page{
+    margin:10px auto;
+    padding:0 8px;
+  }
+
+  .messages-layout{
+    display:flex;
+    flex-direction:column;
+    height:calc(100vh - 85px);
+    min-height:0;
+    gap:10px;
+  }
+
+  .users-card{
+    flex:0 0 105px;
+  }
+
+  .users-header{
+    padding:12px;
+  }
+
+  .users-title{
+    font-size:18px;
+  }
+
+  .users-search{
+    display:none;
+  }
+
+  .users-list{
+    display:flex;
+    overflow-x:auto;
+    overflow-y:hidden;
+  }
+
+  .user-item{
+    min-width:100px;
+    width:100px;
+    flex-direction:column;
+    justify-content:center;
     text-align:center;
-}
+    padding:8px;
+    border-left:1px solid #f0f0f0;
+    border-bottom:none;
+    gap:5px;
+  }
 
-.loading i{
-    margin-left:6px;
-}
+  .user-avatar{
+    width:48px;
+    height:48px;
+  }
 
-/* =========================
-   الهاتف
-========================= */
+  .user-name{
+    max-width:90px;
+    font-size:12px;
+  }
 
-@media(max-width:768px){
+  .user-username{
+    display:none;
+  }
 
-    body{
-        overflow:hidden;
-    }
+  .chat-card{
+    flex:1;
+  }
 
-    .navbar{
-        height:60px;
-    }
+  .chat-header{
+    height:70px;
+    padding:8px 12px;
+  }
 
-    .page{
-        height:calc(100vh - 60px);
-        padding:0;
-    }
+  .chat-user-avatar{
+    width:48px;
+    height:48px;
+  }
 
-    .messages-layout{
-        display:block;
-    }
+  .chat-body{
+    padding:14px 10px;
+  }
 
-    .conversations{
-        display:none;
-    }
+  .message-bubble{
+    max-width:78%;
+    font-size:14px;
+  }
 
-    .chat{
-        height:100%;
-        border-radius:0;
-        border:none;
-    }
+  .chat-footer{
+    padding:8px;
+  }
 
-    .chat-header{
-        height:70px;
-        padding:10px 14px;
-    }
+  .message-input{
+    padding:11px 14px;
+  }
 
-    .messages{
-        padding:14px 10px;
-    }
-
-    .message-bubble{
-        max-width:82%;
-        font-size:15px;
-    }
-
-    .message-form{
-        padding:8px;
-    }
-
-    .message-input{
-        padding:11px 15px;
-    }
-
-    .send-btn{
-        width:45px;
-        height:45px;
-    }
+  .send-btn{
+    width:45px;
+    height:45px;
+  }
 
 }
 
@@ -466,861 +532,795 @@ button{
 
 <header class="navbar">
 
-    <div class="nav-container">
+  <div class="nav-container">
 
-        <button
-            class="back-btn"
-            onclick="window.location.href='home.html'"
-        >
-            <i class="fa-solid fa-arrow-right"></i>
-        </button>
+    <a class="logo" href="home.html">
+      <i class="fa-solid fa-shapes"></i>
+      Rang
+    </a>
 
-        <a
-            href="home.html"
-            class="logo"
-        >
-            Rang
-        </a>
+    <button
+      class="back-btn"
+      onclick="window.location.href='home.html'"
+    >
+      <i class="fa-solid fa-arrow-right"></i>
+    </button>
 
-    </div>
+  </div>
 
 </header>
 
 
 <div class="page">
 
-    <div class="messages-layout">
+  <div class="messages-layout">
+
+    <aside class="card users-card">
+
+      <div class="users-header">
+
+        <div class="users-title">
+          <i class="fa-solid fa-comments"></i>
+          المراسلة
+        </div>
+
+        <div class="users-search">
+
+          <i class="fa-solid fa-magnifying-glass"></i>
+
+          <input
+            id="userSearch"
+            type="text"
+            placeholder="ابحث عن صديق..."
+          >
+
+        </div>
+
+      </div>
+
+      <div
+        id="usersList"
+        class="users-list"
+      >
+
+        <div class="loading">
+          جاري تحميل الأصدقاء...
+        </div>
+
+      </div>
+
+    </aside>
 
 
-        <!-- قائمة المحادثات -->
+    <main class="card chat-card">
 
-        <aside class="conversations">
+      <div
+        id="noChat"
+        class="no-chat"
+      >
 
-            <div class="conversations-header">
+        <i class="fa-regular fa-comments"></i>
 
-                <h2>
-                    <i class="fa-solid fa-comments"></i>
-                    المراسلة
-                </h2>
+        <h3>
+          اختر صديقًا للمراسلة
+        </h3>
 
-            </div>
+        <p>
+          اختر أحد أصدقائك لبدء المحادثة
+        </p>
+
+      </div>
+
+
+      <div
+        id="chatContent"
+        style="display:none; flex:1; min-height:0; flex-direction:column;"
+      >
+
+        <div
+          id="chatHeader"
+          class="chat-header"
+        >
+
+          <img
+            id="chatAvatar"
+            class="chat-user-avatar"
+            src=""
+          >
+
+          <div class="chat-user-info">
 
             <div
-                id="conversationList"
-                class="conversation-list"
-            >
-
-                <div class="loading">
-                    جاري تحميل المحادثات...
-                </div>
-
-            </div>
-
-        </aside>
-
-
-        <!-- المحادثة -->
-
-        <main class="chat">
-
-
-            <header class="chat-header">
-
-                <img
-                    id="chatAvatar"
-                    class="avatar"
-                    src="https://ui-avatars.com/api/?name=Rang"
-                >
-
-                <div class="chat-user-info">
-
-                    <div
-                        id="chatUserName"
-                        class="chat-user-name"
-                    >
-                        اختر صديقاً للمراسلة
-                    </div>
-
-                    <div
-                        id="chatUserStatus"
-                        class="chat-user-status"
-                    >
-                        المراسلة الخاصة
-                    </div>
-
-                </div>
-
-            </header>
-
-
-            <!-- الرسائل -->
+              id="chatName"
+              class="chat-user-name"
+            ></div>
 
             <div
-                id="messages"
-                class="messages"
-            >
+              id="chatUsername"
+              class="chat-user-username"
+            ></div>
 
-                <div class="empty-chat">
+          </div>
 
-                    <i class="fa-regular fa-comments"></i>
-
-                    <div>
-                        اختر شخصاً من قائمة الأصدقاء لبدء المحادثة.
-                    </div>
-
-                </div>
-
-            </div>
+        </div>
 
 
-            <!-- إرسال -->
+        <div
+          id="messagesContainer"
+          class="chat-body"
+        ></div>
 
-            <form
-                id="messageForm"
-                class="message-form"
-            >
 
-                <input
-                    id="messageInput"
-                    class="message-input"
-                    type="text"
-                    maxlength="2000"
-                    autocomplete="off"
-                    placeholder="اكتب رسالة..."
-                    disabled
-                >
+        <div class="chat-footer">
 
-                <button
-                    id="sendBtn"
-                    class="send-btn"
-                    type="submit"
-                    disabled
-                >
+          <input
+            id="messageInput"
+            class="message-input"
+            type="text"
+            maxlength="2000"
+            placeholder="اكتب رسالة..."
+            autocomplete="off"
+          >
 
-                    <i class="fa-solid fa-paper-plane"></i>
+          <button
+            id="sendBtn"
+            class="send-btn"
+            type="button"
+            onclick="sendMessage()"
+          >
+            <i class="fa-solid fa-paper-plane"></i>
+          </button>
 
-                </button>
+        </div>
 
-            </form>
+      </div>
 
-        </main>
+    </main>
 
-    </div>
+  </div>
 
 </div>
 
 
 <script>
 
-/* =========================
-   المتغيرات
-========================= */
-
 let currentUser = null;
-let currentProfile = null;
-
 let selectedUser = null;
+let friends = [];
+let refreshTimer = null;
 
-let profilesCache = {};
-
-
-/* =========================
-   أدوات
-========================= */
 
 function escapeHTML(value){
 
-    return String(value ?? "")
-        .replace(/&/g,"&amp;")
-        .replace(/</g,"&lt;")
-        .replace(/>/g,"&gt;")
-        .replace(/"/g,"&quot;")
-        .replace(/'/g,"&#039;");
+  return String(value ?? "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
 
 }
 
 
 function getAvatar(name){
 
-    return "https://ui-avatars.com/api/?name="+
-        encodeURIComponent(name || "Rang")+
-        "&background=6c5ce7&color=fff&size=128";
+  return "https://ui-avatars.com/api/?name="+
+    encodeURIComponent(name || "Rang")+
+    "&background=6c5ce7&color=fff&size=128";
 
 }
 
 
 function formatTime(date){
 
-    if(!date) return "";
+  if(!date) return "";
 
-    return new Date(date).toLocaleTimeString(
-        "ar-EG",
-        {
-            hour:"2-digit",
-            minute:"2-digit"
-        }
-    );
+  return new Date(date).toLocaleTimeString(
+    "ar-EG",
+    {
+      hour:"2-digit",
+      minute:"2-digit"
+    }
+  );
 
 }
 
-
-/* =========================
-   تشغيل الصفحة
-========================= */
 
 async function initPage(){
 
-    try{
-
-        const {
-            data:{session},
-            error
-        } =
-        await supabaseClient.auth.getSession();
-
-
-        if(error)
-            throw error;
-
-
-        if(!session){
-
-            window.location.href="index.html";
-            return;
-
-        }
-
-
-        currentUser=session.user;
-
-
-        await loadProfile();
-
-        await loadFriends();
-
-
-    }
-    catch(error){
-
-        console.error(error);
-
-        alert(
-            "حدث خطأ:\n"+
-            error.message
-        );
-
-    }
-
-}
-
-
-/* =========================
-   الملف الشخصي
-========================= */
-
-async function loadProfile(){
+  try{
 
     const {
-        data,
-        error
-    } =
-    await supabaseClient
-        .from("profiles")
-        .select("*")
-        .eq("id",currentUser.id)
-        .maybeSingle();
+      data:{session},
+      error
+    } = await supabaseClient.auth.getSession();
 
+    if(error) throw error;
 
-    if(error)
-        throw error;
+    if(!session){
 
+      window.location.href="index.html";
+      return;
 
-    currentProfile=data;
+    }
+
+    currentUser=session.user;
+
+    await loadFriends();
+
+    const params=
+      new URLSearchParams(
+        window.location.search
+      );
+
+    const userId=params.get("user");
+
+    if(userId){
+
+      const user=friends.find(
+        x=>x.id===userId
+      );
+
+      if(user){
+
+        openChat(user);
+
+      }
+
+    }
+
+    startRefresh();
+
+  }
+  catch(error){
+
+    console.error(error);
+
+    document.getElementById(
+      "usersList"
+    ).innerHTML=`
+
+      <div class="empty">
+        تعذر تحميل الأصدقاء.
+        <br><br>
+        <small>
+          ${escapeHTML(error.message)}
+        </small>
+      </div>
+
+    `;
+
+  }
 
 }
 
-
-/* =========================
-   تحميل الأصدقاء
-========================= */
 
 async function loadFriends(){
 
-    const box=
-        document.getElementById(
-            "conversationList"
-        );
+  const box=
+    document.getElementById("usersList");
 
+  box.innerHTML=`
+    <div class="loading">
+      جاري تحميل الأصدقاء...
+    </div>
+  `;
 
-    try{
 
-        const {
-            data,
-            error
-        } =
-        await supabaseClient
-            .from("friend_requests")
-            .select("*")
-            .eq("status","accepted")
-            .or(
-                `sender_id.eq.${currentUser.id},receiver_id.eq.${currentUser.id}`
-            );
+  const {
+    data,
+    error
+  }=await supabaseClient
+    .from("friend_requests")
+    .select("*")
+    .eq("status","accepted")
+    .or(
+      `sender_id.eq.${currentUser.id},receiver_id.eq.${currentUser.id}`
+    )
+    .order(
+      "created_at",
+      {ascending:false}
+    );
 
 
-        if(error)
-            throw error;
+  if(error) throw error;
 
 
-        if(!data || !data.length){
+  if(!data || !data.length){
 
-            box.innerHTML=`
-
-                <div class="empty-chat"
-                     style="padding:30px 15px;">
-
-                    <i class="fa-regular fa-user"></i>
-
-                    <div>
-                        لا يوجد أصدقاء حتى الآن.
-                    </div>
-
-                </div>
-
-            `;
-
-            return;
-
-        }
-
-
-        const ids=data.map(row =>
-
-            row.sender_id === currentUser.id
-                ? row.receiver_id
-                : row.sender_id
-
-        );
-
-
-        const {
-            data:profiles,
-            error:profilesError
-        } =
-        await supabaseClient
-            .from("profiles")
-            .select(
-                "id,name,username,account_type"
-            )
-            .in("id",ids);
-
-
-        if(profilesError)
-            throw profilesError;
-
-
-        profilesCache={};
-
-
-        (profiles || []).forEach(user => {
-
-            profilesCache[user.id]=user;
-
-        });
-
-
-        box.innerHTML="";
-
-
-        (profiles || []).forEach(user => {
-
-            const button=
-                document.createElement("button");
-
-
-            button.className="conversation";
-
-
-            button.dataset.userId=user.id;
-
-
-            button.innerHTML=`
-
-                <img
-                    class="avatar"
-                    src="${getAvatar(user.name)}"
-                >
-
-                <div class="conversation-info">
-
-                    <div class="conversation-name">
-                        ${escapeHTML(
-                            user.name || "مستخدم"
-                        )}
-                    </div>
-
-                    <div class="conversation-username">
-                        @${escapeHTML(
-                            user.username || ""
-                        )}
-                    </div>
-
-                </div>
-
-            `;
-
-
-            button.addEventListener(
-                "click",
-                () => openConversation(user)
-            );
-
-
-            box.appendChild(button);
-
-        });
-
-
-        /*
-         * إذا كان هناك مستخدم محدد
-         * من رابط الصفحة
-         */
-
-        const params=
-            new URLSearchParams(
-                window.location.search
-            );
-
-
-        const userId=
-            params.get("user");
-
-
-        if(userId){
-
-            const user=
-                profilesCache[userId];
-
-
-            if(user)
-                openConversation(user);
-
-        }
-
-
-    }
-    catch(error){
-
-        console.error(error);
-
-
-        box.innerHTML=`
-
-            <div class="empty-chat"
-                 style="padding:30px 15px;">
-
-                ${escapeHTML(error.message)}
-
-            </div>
-
-        `;
-
-    }
-
-}
-
-
-/* =========================
-   فتح محادثة
-========================= */
-
-async function openConversation(user){
-
-    selectedUser=user;
-
-
-    document
-        .querySelectorAll(".conversation")
-        .forEach(item => {
-
-            item.classList.toggle(
-                "active",
-                item.dataset.userId === user.id
-            );
-
-        });
-
-
-    document.getElementById(
-        "chatAvatar"
-    ).src=getAvatar(user.name);
-
-
-    document.getElementById(
-        "chatUserName"
-    ).textContent=
-        user.name || "مستخدم";
-
-
-    document.getElementById(
-        "chatUserStatus"
-    ).textContent=
-        "@"+(user.username || "");
-
-
-    document.getElementById(
-        "messageInput"
-    ).disabled=false;
-
-
-    document.getElementById(
-        "sendBtn"
-    ).disabled=false;
-
-
-    await loadMessages();
-
-}
-
-
-/* =========================
-   تحميل الرسائل
-========================= */
-
-async function loadMessages(){
-
-    const box=
-        document.getElementById(
-            "messages"
-        );
-
-
-    if(!selectedUser){
-
-        return;
-
-    }
-
+    friends=[];
 
     box.innerHTML=`
+      <div class="empty">
+        لا يوجد أصدقاء للمراسلة حتى الآن.
+      </div>
+    `;
 
-        <div class="loading">
+    return;
 
-            <i class="fa-solid fa-spinner fa-spin"></i>
+  }
 
-            جاري تحميل الرسائل...
 
+  const ids=data.map(row=>
+    row.sender_id===currentUser.id
+      ?row.receiver_id
+      :row.sender_id
+  );
+
+
+  const {
+    data:profiles,
+    error:profileError
+  }=await supabaseClient
+    .from("profiles")
+    .select(
+      "id,name,username,account_type"
+    )
+    .in("id",ids);
+
+
+  if(profileError) throw profileError;
+
+
+  friends=profiles || [];
+
+  renderFriends(friends);
+
+}
+
+
+function renderFriends(list){
+
+  const box=
+    document.getElementById("usersList");
+
+  box.innerHTML="";
+
+
+  if(!list.length){
+
+    box.innerHTML=`
+      <div class="empty">
+        لا يوجد مستخدم مطابق.
+      </div>
+    `;
+
+    return;
+
+  }
+
+
+  list.forEach(user=>{
+
+    const button=
+      document.createElement("button");
+
+    button.className="user-item";
+
+
+    if(
+      selectedUser &&
+      selectedUser.id===user.id
+    ){
+
+      button.classList.add("active");
+
+    }
+
+
+    button.onclick=()=>openChat(user);
+
+
+    button.innerHTML=`
+
+      <img
+        class="user-avatar"
+        src="${getAvatar(user.name)}"
+        alt=""
+      >
+
+      <div class="user-info">
+
+        <div class="user-name">
+          ${escapeHTML(
+            user.name || "مستخدم"
+          )}
         </div>
+
+        <div class="user-username">
+          @${escapeHTML(
+            user.username || ""
+          )}
+        </div>
+
+      </div>
 
     `;
 
 
-    try{
+    box.appendChild(button);
 
-        /*
-         * جلب الرسائل بين المستخدمين
-         */
+  });
 
-        const {
-            data,
-            error
-        } =
-        await supabaseClient
-            .from("messages")
-            .select(
-                "id,sender_id,receiver_id,message,created_at"
+}
+
+
+function openChat(user){
+
+  selectedUser=user;
+
+
+  document
+    .getElementById("noChat")
+    .style.display="none";
+
+
+  document
+    .getElementById("chatContent")
+    .style.display="flex";
+
+
+  document
+    .getElementById("chatAvatar")
+    .src=getAvatar(user.name);
+
+
+  document
+    .getElementById("chatName")
+    .textContent=
+    user.name || "مستخدم";
+
+
+  document
+    .getElementById("chatUsername")
+    .textContent=
+    "@"+(user.username || "");
+
+
+  renderFriends(
+    friends.filter(x=>
+      document
+        .getElementById("userSearch")
+        .value
+        .trim()
+        ?(
+          (x.name || "")
+            .toLowerCase()
+            .includes(
+              document
+                .getElementById("userSearch")
+                .value
+                .trim()
+                .toLowerCase()
             )
-            .or(
-                `and(sender_id.eq.${currentUser.id},receiver_id.eq.${selectedUser.id}),and(sender_id.eq.${selectedUser.id},receiver_id.eq.${currentUser.id})`
+          ||
+          (x.username || "")
+            .toLowerCase()
+            .includes(
+              document
+                .getElementById("userSearch")
+                .value
+                .trim()
+                .toLowerCase()
             )
-            .order(
-                "created_at",
-                {ascending:true}
-            );
+        )
+        :true
+    )
+  );
 
 
-        if(error)
-            throw error;
+  loadMessages();
+
+}
 
 
-        if(!data || !data.length){
+async function loadMessages(){
 
-            box.innerHTML=`
-
-                <div class="empty-chat">
-
-                    <i class="fa-regular fa-comments"></i>
-
-                    <div>
-                        لا توجد رسائل بعد.
-                    </div>
-
-                    <small>
-                        ابدأ المحادثة الآن 👋
-                    </small>
-
-                </div>
-
-            `;
-
-            return;
-
-        }
+  if(!selectedUser) return;
 
 
-        box.innerHTML="";
+  const container=
+    document.getElementById(
+      "messagesContainer"
+    );
 
 
-        data.forEach(message => {
+  try{
 
-            const row=
-                document.createElement("div");
-
-
-            const sent=
-                message.sender_id ===
-                currentUser.id;
-
-
-            row.className=
-                "message-row "+
-                (sent ? "sent" : "received");
-
-
-            const bubble=
-                document.createElement("div");
-
-
-            bubble.className=
-                "message-bubble";
+    const {
+      data,
+      error
+    }=await supabaseClient
+      .from("messages")
+      .select(
+        "id,sender_id,receiver_id,message,created_at"
+      )
+      .or(
+        `and(sender_id.eq.${currentUser.id},receiver_id.eq.${selectedUser.id}),and(sender_id.eq.${selectedUser.id},receiver_id.eq.${currentUser.id})`
+      )
+      .order(
+        "created_at",
+        {ascending:true}
+      );
 
 
-            bubble.innerHTML=`
-
-                ${escapeHTML(
-                    message.message
-                )}
-
-                <span class="message-time">
-
-                    ${formatTime(
-                        message.created_at
-                    )}
-
-                </span>
-
-            `;
+    if(error) throw error;
 
 
-            row.appendChild(bubble);
+    if(!data || !data.length){
+
+      container.innerHTML=`
+
+        <div class="chat-empty">
+
+          <i class="fa-regular fa-comments"></i>
+
+          <div>
+            لا توجد رسائل حتى الآن.
+          </div>
+
+          <small>
+            ابدأ المحادثة برسالة جديدة.
+          </small>
+
+        </div>
+
+      `;
+
+      return;
+
+    }
 
 
-            box.appendChild(row);
+    container.innerHTML="";
+
+
+    data.forEach(row=>{
+
+      const sent=
+        row.sender_id===currentUser.id;
+
+
+      const rowElement=
+        document.createElement("div");
+
+
+      rowElement.className=
+        "message-row "+
+        (sent ? "sent" : "received");
+
+
+      rowElement.innerHTML=`
+
+        <div class="message-bubble">
+
+          <div class="message-text">
+            ${escapeHTML(row.message)}
+          </div>
+
+          <div class="message-time">
+            ${formatTime(row.created_at)}
+          </div>
+
+        </div>
+
+      `;
+
+
+      container.appendChild(rowElement);
+
+    });
+
+
+    container.scrollTop=
+      container.scrollHeight;
+
+  }
+  catch(error){
+
+    console.error(error);
+
+    container.innerHTML=`
+
+      <div class="chat-empty">
+
+        <i class="fa-solid fa-triangle-exclamation"></i>
+
+        <div>
+          تعذر تحميل الرسائل.
+        </div>
+
+        <small>
+          ${escapeHTML(error.message)}
+        </small>
+
+      </div>
+
+    `;
+
+  }
+
+}
+
+
+async function sendMessage(){
+
+  if(!selectedUser) return;
+
+
+  const input=
+    document.getElementById(
+      "messageInput"
+    );
+
+
+  const button=
+    document.getElementById(
+      "sendBtn"
+    );
+
+
+  const text=
+    input.value.trim();
+
+
+  if(!text) return;
+
+
+  input.disabled=true;
+  button.disabled=true;
+
+
+  try{
+
+    const {
+      error
+    }=await supabaseClient
+      .from("messages")
+      .insert({
+
+        sender_id:currentUser.id,
+
+        receiver_id:selectedUser.id,
+
+        message:text
+
+      });
+
+
+    if(error) throw error;
+
+
+    input.value="";
+
+    await loadMessages();
+
+    input.focus();
+
+  }
+  catch(error){
+
+    console.error(error);
+
+    alert(
+      "تعذر إرسال الرسالة:\n"+
+      error.message
+    );
+
+  }
+  finally{
+
+    input.disabled=false;
+    button.disabled=false;
+
+  }
+
+}
+
+
+document
+  .getElementById("messageInput")
+  .addEventListener(
+    "keydown",
+    function(event){
+
+      if(
+        event.key==="Enter" &&
+        !event.shiftKey
+      ){
+
+        event.preventDefault();
+
+        sendMessage();
+
+      }
+
+    }
+  );
+
+
+document
+  .getElementById("userSearch")
+  .addEventListener(
+    "input",
+    function(){
+
+      const value=
+        this.value
+          .trim()
+          .toLowerCase();
+
+
+      const filtered=
+        friends.filter(user=>{
+
+          const name=
+            (user.name || "")
+              .toLowerCase();
+
+          const username=
+            (user.username || "")
+              .toLowerCase();
+
+          return(
+            !value ||
+            name.includes(value) ||
+            username.includes(value)
+          );
 
         });
 
 
-        scrollToBottom();
-
-
-    }
-    catch(error){
-
-        console.error(error);
-
-
-        box.innerHTML=`
-
-            <div class="empty-chat">
-
-                <i class="fa-solid fa-triangle-exclamation"></i>
-
-                <div>
-                    تعذر تحميل الرسائل.
-                </div>
-
-                <small>
-                    ${escapeHTML(
-                        error.message
-                    )}
-                </small>
-
-            </div>
-
-        `;
+      renderFriends(filtered);
 
     }
-
-}
-
-
-/* =========================
-   إرسال رسالة
-========================= */
-
-document
-    .getElementById("messageForm")
-    .addEventListener(
-        "submit",
-        async function(event){
-
-            event.preventDefault();
+  );
 
 
-            if(!selectedUser)
-                return;
+function startRefresh(){
+
+  if(refreshTimer){
+
+    clearInterval(refreshTimer);
+
+  }
 
 
-            const input=
-                document.getElementById(
-                    "messageInput"
-                );
-
-
-            const button=
-                document.getElementById(
-                    "sendBtn"
-                );
-
-
-            const text=
-                input.value.trim();
-
-
-            if(!text)
-                return;
-
-
-            input.disabled=true;
-            button.disabled=true;
-
-
-            try{
-
-                const {
-                    error
-                } =
-                await supabaseClient
-                    .from("messages")
-                    .insert({
-
-                        sender_id:
-                            currentUser.id,
-
-                        receiver_id:
-                            selectedUser.id,
-
-                        message:text
-
-                    });
-
-
-                if(error)
-                    throw error;
-
-
-                input.value="";
-
-
-                await loadMessages();
-
-
-            }
-            catch(error){
-
-                console.error(error);
-
-
-                alert(
-                    "تعذر إرسال الرسالة:\n"+
-                    error.message
-                );
-
-            }
-            finally{
-
-                input.disabled=false;
-                button.disabled=false;
-
-                input.focus();
-
-            }
-
-        }
-    );
-
-
-/* =========================
-   Enter للإرسال
-========================= */
-
-document
-    .getElementById("messageInput")
-    .addEventListener(
-        "keydown",
-        function(event){
-
-            if(
-                event.key==="Enter" &&
-                !event.shiftKey
-            ){
-
-                event.preventDefault();
-
-                document
-                    .getElementById(
-                        "messageForm"
-                    )
-                    .requestSubmit();
-
-            }
-
-        }
-    );
-
-
-/* =========================
-   النزول لآخر رسالة
-========================= */
-
-function scrollToBottom(){
-
-    const box=
-        document.getElementById(
-            "messages"
-        );
-
-
-    box.scrollTop=
-        box.scrollHeight;
-
-}
-
-
-/* =========================
-   تحديث الرسائل
-========================= */
-
-setInterval(
-    async function(){
+  refreshTimer=
+    setInterval(
+      async()=>{
 
         if(selectedUser){
 
-            await loadMessages();
+          await loadMessages();
 
         }
 
-    },
-    5000
+      },
+      5000
+    );
+
+}
+
+
+window.addEventListener(
+  "beforeunload",
+  function(){
+
+    if(refreshTimer){
+
+      clearInterval(refreshTimer);
+
+    }
+
+  }
 );
 
-
-/* =========================
-   تشغيل
-========================= */
 
 initPage();
 
 </script>
 
 </body>
+
 </html>
