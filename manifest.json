@@ -1,0 +1,21 @@
+{
+  "name": "Range Social",
+  "short_name": "Range",
+  "description": "Range Social - مجتمع التواصل المدرسي",
+  "lang": "ar",
+  "dir": "rtl",
+  "start_url": "/index.html",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#f4f6f9",
+  "theme_color": "#6c5ce7",
+  "icons": [
+    {
+      "src": "https://i.ibb.co/xSBph8W0/ic-launcher.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
