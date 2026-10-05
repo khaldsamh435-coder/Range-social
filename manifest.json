@@ -13,6 +13,12 @@
   "icons": [
     {
       "src": "https://i.ibb.co/xSBph8W0/ic-launcher.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "https://i.ibb.co/xSBph8W0/ic-launcher.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any"
