@@ -11,10 +11,15 @@ self.addEventListener("activate", event => {
 });
 
 self.addEventListener("fetch", event => {
+
+  if (event.request.method !== "GET") {
+    return;
+  }
+
   event.respondWith(
     fetch(event.request).catch(() => {
       return new Response(
-        "لا يوجد اتصال بالإنترنت حاليًا.",
+        "لا يوجد اتصال بالانترنت حالياً!",
         {
           headers: {
             "Content-Type": "text/plain; charset=utf-8"
@@ -23,4 +28,5 @@ self.addEventListener("fetch", event => {
       );
     })
   );
+
 });
