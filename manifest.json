@@ -12,7 +12,7 @@
   "theme_color": "#6c5ce7",
   "icons": [
     {
-      "src": "/icons/icon-512.png",
+      "src": "https://files.catbox.moe/mizxvr.jpg",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any"
