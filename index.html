@@ -130,6 +130,11 @@
     #installAppBtn:hover {
       background: #5b4bc4;
     }
+
+    .star{
+      color: #777777;
+      text-algin: center;
+    }
   </style>
 </head>
 
@@ -138,6 +143,7 @@
     <div class="logo">Rang</div>
 
     <div class="subtitle">شبكة المدرسة التعليمية</div>
+    <p class="star">مدرسه بسنديله الثانويه المشتركه</p>
 
     <form id="loginForm">
       <label for="email">البريد الإلكتروني</label>
@@ -195,7 +201,7 @@
       passwordInput.disabled = !enabled;
       loginButton.textContent = enabled
         ? "تسجيل الدخول"
-        : "جاري التحقق...";
+        : "جاري التحقق🤌";
     }
 
     async function openUserPage(user) {
